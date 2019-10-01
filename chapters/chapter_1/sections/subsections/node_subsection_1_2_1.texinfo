@@ -1,0 +1,183 @@
+@node node_subsection_1_2_1 
+@subsection Ejemplo 1.1
+
+@b{Empecemos por hacer el análisis del primer ejemplo que se propone en el manual de OpenMP. Para esto, ejecutemos el ejemplo sin paralelizar, es decir sin el uso de la sintaxis de OpenMP.}
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+#define TAMANO 100
+
+void simple(int n, float *a, float *b);
+
+int main()
+{
+
+    int n = 6;
+    float a[TAMANO];
+    float b[TAMANO];
+
+    simple(n, a, b);
+    return 0; 
+
+}
+
+void simple(int n, float *a, float *b)
+{
+    int i;
+    for( i=1; i<n; i++ )
+        {
+            b[i]=( a[i] + b[i-1] ) / 2.0;
+        printf("Checkpoint 1: b[%d] = %f. Thread # %d\n\n", i, b[i], omp_get_thread_num());
+        }
+        printf("Checkpoint 2: b[%d] = %f. Thread # %d\n\n", i, b[i], omp_get_thread_num());
+
+}
+
+@end verbatim
+
+@b{Una vez ejecutado el ejemplo, obtenemos los siguientes resultados:}
+
+Checkpoint 1: b[1] = 0.000000. Thread # 0
+
+Checkpoint 1: b[2] = 0.000000. Thread # 0
+
+Checkpoint 1: b[3] = 0.000000. Thread # 0
+
+Checkpoint 1: b[4] = 0.000001. Thread # 0
+
+Checkpoint 1: b[5] = 0.000000. Thread # 0
+
+Checkpoint 2: b[6] = 0.000000. Thread # 0
+
+@b{Análisis y conclusión}
+
+En primer lugar observamos que el único hilo o thread que es registrado es el Thread: #0, que es el único que está en función desde el inicio hasta el fin de script.
+
+También hay que notar que en el @b{checkpoint 1} el índice @i{i} se imprime de manera ordenada y creciente. En el @b{checkpoint 2}, dado que en el ciclo @i{for} tenemos postincremento de la variable @b{i} se tiene @b{b[6]}.
+
+@b{Ahora vamos a ejecutar este mismo ejemplo pero ahora sí usando la usando la sintaxis de OpenMP y configurando la paralelización para 6 threads:}
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+#define TAMANO 100
+
+void simple(int n, float *a, float *b);
+
+int main()
+{
+
+    int n = 11;
+    float a[TAMANO];
+    float b[TAMANO];
+
+    simple(n, a, b);
+    return 0; 
+
+}
+
+void simple(int n, float *a, float *b)
+{
+    int i;
+    #pragma omp parallel for num_threads(6)
+    for( i=1; i<n; i++ )
+        {
+            b[i]=( a[i] + b[i-1] ) / 2.0;
+        printf("Checkpoint 1: b[i] = %f. Thread # %d\n\n", b[i], omp_get_thread_num());
+        }
+        printf("Checkpoint 2: b[i] = %f. Thread # %d\n\n", b[i], omp_get_thread_num());
+
+}
+
+@end verbatim
+@b{Obteniendo en este caso como resultado:}
+
+Checkpoint 1: b[1] = 0.000000. Thread # 0
+
+Checkpoint 1: b[4] = 0.000000. Thread # 3
+
+Checkpoint 1: b[5] = 0.000000. Thread # 4
+
+Checkpoint 1: b[2] = 0.000000. Thread # 1
+
+Checkpoint 1: b[3] = 0.000000. Thread # 2
+
+Checkpoint 2: b[0] = 0.000000. Thread # 0
+
+@b{Análisis y conclusión}
+
+Tomando en cuenta que solo se definieron 6 threads con la instrucción @b{omp_get_thread_num}  vemos que se usaron sólo los threads 0, 1, 2, 3, 4, 5. Por lo que hay un thread inutilizado, en este caso el thread #6. Lo mejor es ajustar el número de threads necesarios. En este caso la configuración óptima es: @b{num_threads(5)} que es la que coincide con el número de incremento máximo	que puede tener la variable @i{i}.
+
+El @b{checkpoint 1}, ademas de usar los threads 0-5 se aprecia que el valor de la variable @b{i} no coincide con el del thread. Esto es debido a que cada thread toma un valor de @b{i} sin importar el orden. Es decir, una vez que el thread #0 entra al bloque a paralelizar se segenera un @i{team} de threads que tomaran cada uno de los valores de la variable del ciclo @i{for}.  
+
+@b{Ahora veamos cuál sería el resultado disminuyendo el número de threads a 2:}
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+#define TAMANO 100
+
+void simple(int n, float *a, float *b);
+
+int main()
+{
+
+    int n = 11;
+    float a[TAMANO];
+    float b[TAMANO];
+
+    simple(n, a, b);
+    return 0; 
+
+}
+
+void simple(int n, float *a, float *b)
+{
+    int i;
+    #pragma omp parallel for num_threads(2)
+    for( i=1; i<n; i++ )
+        {
+            b[i]=( a[i] + b[i-1] ) / 2.0;
+        printf("Checkpoint 1: b[i] = %f. Thread # %d\n\n", b[i], omp_get_thread_num());
+        }
+        printf("Checkpoint 2: b[i] = %f. Thread # %d\n\n", b[i], omp_get_thread_num());
+
+}
+
+@end verbatim
+@b{Obteniendo en este caso como resultado:}
+
+Checkpoint 1: b[4] = 0.000000. Thread # 1
+
+Checkpoint 1: b[5] = 0.000000. Thread # 1
+
+Checkpoint 1: b[1] = 0.000000. Thread # 0
+
+Checkpoint 1: b[2] = 0.000000. Thread # 0
+
+Checkpoint 1: b[3] = 0.000000. Thread # 0
+
+Checkpoint 2: b[0] = 0.000000. Thread # 0
+
+@b{Análisis y conclusión}
+
+Como era de esperar solo se usan los threads 0 y 1, quienes conforman el @i{team}. En el @b{checkpoint 1} vemos que el orden de la variable @b{i}, que va de 1 a 5 no está determinado, mientras que en el @b{checkpoint 2}, que es cuando acaba el bloque a paralelizar, el valor del thread es de nueva cuenta el mismo hasta antes de entrar: 0.
+
+
+

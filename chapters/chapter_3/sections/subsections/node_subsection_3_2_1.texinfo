@@ -1,0 +1,150 @@
+@node node_subsection_3_2_1
+@subsection Ejemplo 37.1
+
+@b{Se ejecuto en un primer momemnto sin la sintaxis de OpenMP}
+
+@verbatim
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+void f(int n, int B[n][n], int C[]);
+
+int A[2][2] = {1, 2, 3, 4};
+
+int main()
+{
+
+    f(2, A, A[0]);
+    return 0;
+
+}
+
+void f(int n, int B[n][n], int C[])
+{
+    
+    int D[2][2] = {1, 2, 3, 4};
+    int E[n][n];
+    
+    assert(n>=2);
+    E[1][1] = 4;
+    
+    printf("Checkpoint 1: A = %d, B = %d, C = %d, D = %d, E = %d. Hilo# %d\n\n", A, B, C, D, E, omp_get_thread_num());
+    //#pragma omp parallel firstprivate(B, C, D, E) num_threads(8)
+    {
+    printf("Checkpoint 2: A = %d, B = %d, C = %d, D = %d, E = %d. Hilo# %d\n\n", A, B, C, D, E, omp_get_thread_num());
+    
+        assert(sizeof(B) == sizeof(int (*)[n]));
+        assert(sizeof(C) == sizeof(int *));
+        assert(sizeof(D) == 4 * sizeof(int));
+        assert(sizeof(E) == n * n * sizeof(int));
+        
+        assert(&B[1][1] == &A[1][1]);
+        assert(&C[3] == &A[1][1]);
+        assert(D[1][1] == 4);
+        assert(E[1][1] == 4);
+    
+    }
+    
+    printf("Checkpoint 3: A = %d, B = %d, C = %d, D = %d, E = %d. Hilo# %d\n\n", A, B, C, D, E, omp_get_thread_num());
+}
+
+
+@end verbatim
+
+@b{Obteniendo los siguientes resultados}:
+
+
+Checkpoint 1: A = 1867792464, B = 1867792464, C = 1867792464, D = -1809097120, E = -1809097168. Hilo# 0
+
+Checkpoint 2: A = 1867792464, B = 1867792464, C = 1867792464, D = -1809097120, E = -1809097168. Hilo# 0
+
+Checkpoint 3: A = 1867792464, B = 1867792464, C = 1867792464, D = -1809097120, E = -1809097168. Hilo# 0
+
+@b{Luego con OpenMP}
+
+
+@verbatim
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+void f(int n, int B[n][n], int C[]);
+
+int A[2][2] = {1, 2, 3, 4};
+
+int main()
+{
+
+    f(2, A, A[0]);
+    return 0;
+
+}
+
+void f(int n, int B[n][n], int C[])
+{
+    
+    int D[2][2] = {1, 2, 3, 4};
+    int E[n][n];
+    
+    assert(n>=2);
+    E[1][1] = 4;
+    
+    printf("Checkpoint 1: A = %d, B = %d, C = %d, D = %d, E = %d. Hilo# %d\n\n", A, B, C, D, E, omp_get_thread_num());
+    #pragma omp parallel firstprivate(B, C, D, E) num_threads(8)
+    {
+    printf("Checkpoint 2: A = %d, B = %d, C = %d, D = %d, E = %d. Hilo# %d\n\n", A, B, C, D, E, omp_get_thread_num());
+    
+        assert(sizeof(B) == sizeof(int (*)[n]));
+        assert(sizeof(C) == sizeof(int *));
+        assert(sizeof(D) == 4 * sizeof(int));
+        assert(sizeof(E) == n * n * sizeof(int));
+        
+        assert(&B[1][1] == &A[1][1]);
+        assert(&C[3] == &A[1][1]);
+        assert(D[1][1] == 4);
+        assert(E[1][1] == 4);
+    
+    }
+    
+    printf("Checkpoint 3: A = %d, B = %d, C = %d, D = %d, E = %d. Hilo# %d\n\n", A, B, C, D, E, omp_get_thread_num());
+}
+
+
+@end verbatim
+
+
+
+
+
+@b{Resultados}
+
+Checkpoint 1: A = 253075552, B = 253075552, C = 253075552, D = -834303568, E = -834303632. Hilo# 0
+
+Checkpoint 2: A = 253075552, B = 253075552, C = 253075552, D = -834303776, E = -834303824. Hilo# 0
+
+Checkpoint 2: A = 253075552, B = 253075552, C = 253075552, D = -891060752, E = -891060800. Hilo# 4
+
+Checkpoint 2: A = 253075552, B = 253075552, C = 253075552, D = -907846160, E = -907846208. Hilo# 6
+
+Checkpoint 2: A = 253075552, B = 253075552, C = 253075552, D = -916238864, E = -916238912. Hilo# 7
+
+Checkpoint 2: A = 253075552, B = 253075552, C = 253075552, D = -882668048, E = -882668096. Hilo# 3
+
+Checkpoint 2: A = 253075552, B = 253075552, C = 253075552, D = -865882640, E = -865882688. Hilo# 1
+
+Checkpoint 2: A = 253075552, B = 253075552, C = 253075552, D = -874275344, E = -874275392. Hilo# 2
+
+Checkpoint 2: A = 253075552, B = 253075552, C = 253075552, D = -899453456, E = -899453504. Hilo# 5
+
+Checkpoint 3: A = 253075552, B = 253075552, C = 253075552, D = -834303568, E = -834303632. Hilo# 0
+
+

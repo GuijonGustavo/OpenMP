@@ -1,0 +1,3910 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- This manual is for program, version version. Copyright C years copyright-owner.
+Permission is granted to creative commons, by Gustavo Magallanes-Guijón
+ -->
+<!-- Created on el 1 octubre 2019 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>docs</title>
+
+<meta name="description" content="docs">
+<meta name="keywords" content="docs">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="es" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Top"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Tutorial-de-OpenMP"></a>
+<h1 class="settitle">Tutorial de OpenMP</h1>
+<p>Gustavo Magallanes-Guijón
+</p><p>This manual is for program, version version. Copyright &copy; years copyright-owner.
+Permission is granted to creative commons, by Gustavo Magallanes-Guijón
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#node_005fchapter_005f1">1. Introducción</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#node_005fchapter_005f2">2. Directivas</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Uso y ejemplos de las directivas de OpenMP
+</td></tr>
+<tr><td align="left" valign="top"><a href="#node_005fchapter_005f3">3. Clausulas</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Ejemplos y explicación de las clausulas
+</td></tr>
+</table>
+
+                                                
+
+<hr size="1">
+<a name="node_005fchapter_005f1"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Top" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsection_005f1_005f1" title="Secci&oacute;n siguiente en orden de lectura"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f2" title="Cap&iacute;tulo siguiente"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Introduccion"></a>
+<h1 class="chapter">1. Introducción</h1>
+                                                
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#node_005fsection_005f1_005f1">1.1 Servidor Sor Juana</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#node_005fsection_005f1_005f2">1.2 ¿Qué es OpenMP?</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+</table>
+                                      
+                                                
+<hr size="6">
+<a name="node_005fsection_005f1_005f1"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#node_005fchapter_005f1" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsubsection_005f1_005f1_005f1" title="Secci&oacute;n siguiente en orden de lectura"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f1" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f1" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f2" title="Cap&iacute;tulo siguiente"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Servidor-Sor-Juana"></a>
+<h2 class="section">1.1 Servidor Sor Juana</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#node_005fsubsection_005f1_005f1_005f1">1.1.1 Información General del servidor</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="node_005fsubsection_005f1_005f1_005f1"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#node_005fsection_005f1_005f1" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsection_005f1_005f2" title="Secci&oacute;n siguiente en orden de lectura"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f1" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsection_005f1_005f1" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f2" title="Cap&iacute;tulo siguiente"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Informacion-General-del-servidor"></a>
+<h3 class="subsection">1.1.1 Información General del servidor</h3>
+
+<p>Se cuenta con una computadora con 48 núcleos y básicamente con las mismas características cada uno de ellos.
+</p>
+<p><b>processor</b>	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1204.567
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 0
+cpu cores	: 12
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 1
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.115
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 1
+cpu cores	: 12
+apicid		: 2
+initial apicid	: 2
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 2
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.837
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 2
+cpu cores	: 12
+apicid		: 4
+initial apicid	: 4
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 3
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.713
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 3
+cpu cores	: 12
+apicid		: 6
+initial apicid	: 6
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 4
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.876
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 4
+cpu cores	: 12
+apicid		: 8
+initial apicid	: 8
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 5
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.514
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 5
+cpu cores	: 12
+apicid		: 10
+initial apicid	: 10
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 6
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.729
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 8
+cpu cores	: 12
+apicid		: 16
+initial apicid	: 16
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 7
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.482
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 9
+cpu cores	: 12
+apicid		: 18
+initial apicid	: 18
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 8
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.582
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 10
+cpu cores	: 12
+apicid		: 20
+initial apicid	: 20
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 9
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.503
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 11
+cpu cores	: 12
+apicid		: 22
+initial apicid	: 22
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 10
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.452
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 12
+cpu cores	: 12
+apicid		: 24
+initial apicid	: 24
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 11
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.900
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 13
+cpu cores	: 12
+apicid		: 26
+initial apicid	: 26
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 12
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.222
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 0
+cpu cores	: 12
+apicid		: 32
+initial apicid	: 32
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 13
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.781
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 1
+cpu cores	: 12
+apicid		: 34
+initial apicid	: 34
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 14
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.685
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 2
+cpu cores	: 12
+apicid		: 36
+initial apicid	: 36
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 15
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.650
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 3
+cpu cores	: 12
+apicid		: 38
+initial apicid	: 38
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 16
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.805
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 4
+cpu cores	: 12
+apicid		: 40
+initial apicid	: 40
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 17
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.625
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 5
+cpu cores	: 12
+apicid		: 42
+initial apicid	: 42
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 18
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.571
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 8
+cpu cores	: 12
+apicid		: 48
+initial apicid	: 48
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 19
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.006
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 9
+cpu cores	: 12
+apicid		: 50
+initial apicid	: 50
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 20
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.601
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 10
+cpu cores	: 12
+apicid		: 52
+initial apicid	: 52
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 21
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.678
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 11
+cpu cores	: 12
+apicid		: 54
+initial apicid	: 54
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 22
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.788
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 12
+cpu cores	: 12
+apicid		: 56
+initial apicid	: 56
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 23
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1202.680
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 13
+cpu cores	: 12
+apicid		: 58
+initial apicid	: 58
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 24
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.525
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 0
+cpu cores	: 12
+apicid		: 1
+initial apicid	: 1
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 25
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1201.578
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 1
+cpu cores	: 12
+apicid		: 3
+initial apicid	: 3
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 26
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.871
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 2
+cpu cores	: 12
+apicid		: 5
+initial apicid	: 5
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 27
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.709
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 3
+cpu cores	: 12
+apicid		: 7
+initial apicid	: 7
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 28
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.348
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 4
+cpu cores	: 12
+apicid		: 9
+initial apicid	: 9
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 29
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1201.162
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 5
+cpu cores	: 12
+apicid		: 11
+initial apicid	: 11
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 30
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.892
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 8
+cpu cores	: 12
+apicid		: 17
+initial apicid	: 17
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 31
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1201.179
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 9
+cpu cores	: 12
+apicid		: 19
+initial apicid	: 19
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 32
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.821
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 10
+cpu cores	: 12
+apicid		: 21
+initial apicid	: 21
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 33
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.928
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 11
+cpu cores	: 12
+apicid		: 23
+initial apicid	: 23
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 34
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.603
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 12
+cpu cores	: 12
+apicid		: 25
+initial apicid	: 25
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 35
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.548
+cache size	: 30720 KB
+physical id	: 0
+siblings	: 24
+core id		: 13
+cpu cores	: 12
+apicid		: 27
+initial apicid	: 27
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4400.15
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 36
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.979
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 0
+cpu cores	: 12
+apicid		: 33
+initial apicid	: 33
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 37
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.696
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 1
+cpu cores	: 12
+apicid		: 35
+initial apicid	: 35
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 38
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.951
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 2
+cpu cores	: 12
+apicid		: 37
+initial apicid	: 37
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 39
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.977
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 3
+cpu cores	: 12
+apicid		: 39
+initial apicid	: 39
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 40
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1201.166
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 4
+cpu cores	: 12
+apicid		: 41
+initial apicid	: 41
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 41
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.699
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 5
+cpu cores	: 12
+apicid		: 43
+initial apicid	: 43
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 42
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1201.200
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 8
+cpu cores	: 12
+apicid		: 49
+initial apicid	: 49
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 43
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.576
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 9
+cpu cores	: 12
+apicid		: 51
+initial apicid	: 51
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 44
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1201.081
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 10
+cpu cores	: 12
+apicid		: 53
+initial apicid	: 53
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 45
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.594
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 11
+cpu cores	: 12
+apicid		: 55
+initial apicid	: 55
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 46
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.931
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 12
+cpu cores	: 12
+apicid		: 57
+initial apicid	: 57
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+<p><b>processor</b>	: 47
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 79
+model name	: Intel(R) Xeon(R) CPU E5-2650 v4 &nbsp;2.20GHz
+stepping	: 1
+microcode	: 0xb00001d
+cpu MHz		: 1200.859
+cache size	: 30720 KB
+physical id	: 1
+siblings	: 24
+core id		: 13
+cpu cores	: 12
+apicid		: 59
+initial apicid	: 59
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 20
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts
+bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs
+bogomips	: 4399.89
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 46 bits physical, 48 bits virtual
+power management:
+</p>
+                                                
+<hr size="6">
+<a name="node_005fsection_005f1_005f2"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#node_005fsubsection_005f1_005f1_005f1" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsubsection_005f1_005f2_005f1" title="Secci&oacute;n siguiente en orden de lectura"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f1" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f1" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f2" title="Cap&iacute;tulo siguiente"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="g_t_00bfQue-es-OpenMP_003f"></a>
+<h2 class="section">1.2 ¿Qué es OpenMP?</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#node_005fsubsection_005f1_005f2_005f1">1.2.1 Ejemplo 1.1</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="node_005fsubsection_005f1_005f2_005f1"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#node_005fsection_005f1_005f2" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f2" title="Secci&oacute;n siguiente en orden de lectura"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f1" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsection_005f1_005f2" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f2" title="Cap&iacute;tulo siguiente"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Ejemplo-1_002e1"></a>
+<h3 class="subsection">1.2.1 Ejemplo 1.1</h3>
+
+<p><b>Empecemos por hacer el análisis del primer ejemplo que se propone en el manual de OpenMP. Para esto, ejecutemos el ejemplo sin paralelizar, es decir sin el uso de la sintaxis de OpenMP.</b>
+</p>
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+#define TAMANO 100
+
+void simple(int n, float *a, float *b);
+
+int main()
+{
+
+    int n = 6;
+    float a[TAMANO];
+    float b[TAMANO];
+
+    simple(n, a, b);
+    return 0; 
+
+}
+
+void simple(int n, float *a, float *b)
+{
+    int i;
+    for( i=1; i&lt;n; i++ )
+        {
+            b[i]=( a[i] + b[i-1] ) / 2.0;
+        printf(&quot;Checkpoint 1: b[%d] = %f. Thread # %d\n\n&quot;, i, b[i], omp_get_thread_num());
+        }
+        printf(&quot;Checkpoint 2: b[%d] = %f. Thread # %d\n\n&quot;, i, b[i], omp_get_thread_num());
+
+}
+
+</pre>
+<p><b>Una vez ejecutado el ejemplo, obtenemos los siguientes resultados:</b>
+</p>
+<p>Checkpoint 1: b[1] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: b[2] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: b[3] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: b[4] = 0.000001. Thread # 0
+</p>
+<p>Checkpoint 1: b[5] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 2: b[6] = 0.000000. Thread # 0
+</p>
+<p><b>Análisis y conclusión</b>
+</p>
+<p>En primer lugar observamos que el único hilo o thread que es registrado es el Thread: #0, que es el único que está en función desde el inicio hasta el fin de script.
+</p>
+<p>También hay que notar que en el <b>checkpoint 1</b> el índice <i>i</i> se imprime de manera ordenada y creciente. En el <b>checkpoint 2</b>, dado que en el ciclo <i>for</i> tenemos postincremento de la variable <b>i</b> se tiene <b>b[6]</b>.
+</p>
+<p><b>Ahora vamos a ejecutar este mismo ejemplo pero ahora sí usando la usando la sintaxis de OpenMP y configurando la paralelización para 6 threads:</b>
+</p>
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+#define TAMANO 100
+
+void simple(int n, float *a, float *b);
+
+int main()
+{
+
+    int n = 11;
+    float a[TAMANO];
+    float b[TAMANO];
+
+    simple(n, a, b);
+    return 0; 
+
+}
+
+void simple(int n, float *a, float *b)
+{
+    int i;
+    #pragma omp parallel for num_threads(6)
+    for( i=1; i&lt;n; i++ )
+        {
+            b[i]=( a[i] + b[i-1] ) / 2.0;
+        printf(&quot;Checkpoint 1: b[i] = %f. Thread # %d\n\n&quot;, b[i], omp_get_thread_num());
+        }
+        printf(&quot;Checkpoint 2: b[i] = %f. Thread # %d\n\n&quot;, b[i], omp_get_thread_num());
+
+}
+
+</pre><p><b>Obteniendo en este caso como resultado:</b>
+</p>
+<p>Checkpoint 1: b[1] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: b[4] = 0.000000. Thread # 3
+</p>
+<p>Checkpoint 1: b[5] = 0.000000. Thread # 4
+</p>
+<p>Checkpoint 1: b[2] = 0.000000. Thread # 1
+</p>
+<p>Checkpoint 1: b[3] = 0.000000. Thread # 2
+</p>
+<p>Checkpoint 2: b[0] = 0.000000. Thread # 0
+</p>
+<p><b>Análisis y conclusión</b>
+</p>
+<p>Tomando en cuenta que solo se definieron 6 threads con la instrucción <b>omp_get_thread_num</b>  vemos que se usaron sólo los threads 0, 1, 2, 3, 4, 5. Por lo que hay un thread inutilizado, en este caso el thread #6. Lo mejor es ajustar el número de threads necesarios. En este caso la configuración óptima es: <b>num_threads(5)</b> que es la que coincide con el número de incremento máximo	que puede tener la variable <i>i</i>.
+</p>
+<p>El <b>checkpoint 1</b>, ademas de usar los threads 0-5 se aprecia que el valor de la variable <b>i</b> no coincide con el del thread. Esto es debido a que cada thread toma un valor de <b>i</b> sin importar el orden. Es decir, una vez que el thread #0 entra al bloque a paralelizar se segenera un <i>team</i> de threads que tomaran cada uno de los valores de la variable del ciclo <i>for</i>.  
+</p>
+<p><b>Ahora veamos cuál sería el resultado disminuyendo el número de threads a 2:</b>
+</p>
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+#define TAMANO 100
+
+void simple(int n, float *a, float *b);
+
+int main()
+{
+
+    int n = 11;
+    float a[TAMANO];
+    float b[TAMANO];
+
+    simple(n, a, b);
+    return 0; 
+
+}
+
+void simple(int n, float *a, float *b)
+{
+    int i;
+    #pragma omp parallel for num_threads(2)
+    for( i=1; i&lt;n; i++ )
+        {
+            b[i]=( a[i] + b[i-1] ) / 2.0;
+        printf(&quot;Checkpoint 1: b[i] = %f. Thread # %d\n\n&quot;, b[i], omp_get_thread_num());
+        }
+        printf(&quot;Checkpoint 2: b[i] = %f. Thread # %d\n\n&quot;, b[i], omp_get_thread_num());
+
+}
+
+</pre><p><b>Obteniendo en este caso como resultado:</b>
+</p>
+<p>Checkpoint 1: b[4] = 0.000000. Thread # 1
+</p>
+<p>Checkpoint 1: b[5] = 0.000000. Thread # 1
+</p>
+<p>Checkpoint 1: b[1] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: b[2] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: b[3] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 2: b[0] = 0.000000. Thread # 0
+</p>
+<p><b>Análisis y conclusión</b>
+</p>
+<p>Como era de esperar solo se usan los threads 0 y 1, quienes conforman el <i>team</i>. En el <b>checkpoint 1</b> vemos que el orden de la variable <b>i</b>, que va de 1 a 5 no está determinado, mientras que en el <b>checkpoint 2</b>, que es cuando acaba el bloque a paralelizar, el valor del thread es de nueva cuenta el mismo hasta antes de entrar: 0.
+</p>
+
+
+
+<hr size="6">
+<a name="node_005fchapter_005f2"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#node_005fsubsection_005f1_005f2_005f1" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsection_005f2_005f4" title="Secci&oacute;n siguiente en orden de lectura"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f1" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f3" title="Cap&iacute;tulo siguiente"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Directivas"></a>
+<h1 class="chapter">2. Directivas</h1>
+                                                
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#node_005fsection_005f2_005f4">2.1 Flush</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Directiva Flush                          
+</td></tr>
+</table>
+                                      
+                                                
+<hr size="6">
+<a name="node_005fsection_005f2_005f4"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#node_005fchapter_005f2" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsubsection_005f2_005f4_005f1" title="Secci&oacute;n siguiente en orden de lectura"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f2" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f2" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f3" title="Cap&iacute;tulo siguiente"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Flush"></a>
+<h2 class="section">2.1 Flush</h2>
+
+<p>La directiva <b>flush</b> resuelve la consistencia entre variables al exportar a todos los threads un valor modificado de una variable que ha realizado otro thread en el procesamiento paralelo. Es decir, para cuando el thread llega a la directiva flush, la información del valor de esa variable se exporta al resto de los threads generando con esto consistencia entre los threads. De manera que, esta directiva asegura que las modificaciones hechas por un thread sean efectivas.
+</p>
+<p>Si <i>flush</i> se aplica a todas las variables podría ser muy costoso en términos de rendimiento.
+</p>
+<p>Está directiva está presente <b>implícitamente</b> en las siguientes directivas:
+</p><ul>
+<li> <i>barrrier</i>,
+</li><li> <i>critical</i>,
+</li><li> <i>ordered</i>, 
+</li><li> <i>parallel</i>,
+</li><li> <i>parallel for</i>,
+</li><li> <i>parallel sections</i>,
+</li><li> <i>parallel workshare</i>,
+</li><li> <i>atomic</i>
+</li></ul>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#node_005fsubsection_005f2_005f4_005f1">2.1.1 Ejemplo 2.2</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"> Ejemplo 2.2c
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="node_005fsubsection_005f2_005f4_005f1"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#node_005fsection_005f2_005f4" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f3" title="Secci&oacute;n siguiente en orden de lectura"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f2" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsection_005f2_005f4" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f3" title="Cap&iacute;tulo siguiente"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Ejemplo-2_002e2"></a>
+<h3 class="subsection">2.1.1 Ejemplo 2.2</h3>
+
+<p><b>Este ejemplo se ejecuta primero sin la sintaxis de OpenMP.</b>
+</p>
+<pre class="verbatim">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+int main()
+{
+    int data;
+    int flag=0;
+    
+    {
+        if (omp_get_thread_num() ==0)	
+           {
+                data = 42;
+       
+    	        flag = 1;
+    
+    	        printf(&quot;Checkpoint 1: flag=%d data=%d. Thread # %d\n\n&quot;, flag, data, omp_get_thread_num());
+        
+            }
+
+        else if(omp_get_thread_num() == 1)
+        
+            {
+    	        printf(&quot;Checkpoint 2: flag=%d data=%d. Thread # %d\n\n&quot;, flag, data, omp_get_thread_num());
+    
+    	        printf(&quot;Checkpoint 3: flag=%d data=%d. Thread # %d\n\n&quot;, flag, data, omp_get_thread_num());
+            }
+    }
+    return 0;
+}
+</pre>
+<p><b>Obteniendo los siguientes resultados</b>:
+</p>
+<p>Checkpoint 1: flag=1 data=42. Thread # 0
+</p>
+<p><b>Análisis y conclusión</b>
+</p>
+<p>Este ejemplo solo utilza dos threads, en caso de que se declaracen más sólo filtraría el thread # 0 y el thread # 1. De modo que no tiene sentido usar más hilos que los necesarios. 
+</p>
+<p>Por otro lado, vemos que sólo imprimió el <b>checkpoint 1</b>, y la razón es simple: sin paralelizar el &quot;thread maestro&quot; es el thread # 0. Así que con esta configuración solo se imprimira el <b>checkpoint 1</b> y nunca se imprimira el <b>checkpoint 2</b> ni el <b>checkpoint 3</b>. 
+</p>
+<p><b>Ahora ejecutamos el mismo ejemplo, pero sólo con la directiva <i>parallel.</i> y para que trabaje con 2 threads</b>
+</p><pre class="verbatim">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+int main()
+{
+    int data;
+    int flag=0;
+    
+    #pragma omp parallel num_threads(2)
+    {
+        if (omp_get_thread_num() ==0)	
+           {
+                data = 42;
+       
+    	        flag = 1;
+    
+    	        printf(&quot;Checkpoint 1: flag=%d data=%d. Thread # %d\n\n&quot;, flag, data, omp_get_thread_num());
+            }
+        else if(omp_get_thread_num() == 1)
+        
+            {
+    	        printf(&quot;Checkpoint 2: flag=%d data=%d. Thread # %d\n\n&quot;, flag, data, omp_get_thread_num());
+    
+            }
+    }
+    return 0;
+}
+</pre>
+<p><b>Resultados</b>:
+</p>
+<p>Checkpoint 1: flag=1 data=42. Thread # 0
+</p>
+<p>Checkpoint 2: flag=1 data=42. Thread # 1
+</p>
+<p><b>Análisis y conclusión</b>
+</p>
+<p>Dado que se configuró el bloque a paralelizar con dos threads, los únicos threads presentes son el # 0 y el # 1.
+</p>
+<p>En el <b>checkpoint 1</b> vemos que dado que se cumple la condición se establecen los valores de las variables como es esperado. Por lo que el <b>checkpoint 2</b> imprime lo esperado.
+</p>
+<p><b>Finalmente usamos todas las directivas propuestas de OpenMP en el ejemplo. Tanto <i>parallel</i> como <i>flush</i></b>:
+</p><pre class="verbatim">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+int main()
+{
+    int data;
+    int flag=0;
+    
+    #pragma omp parallel num_threads(2)
+    {
+        if (omp_get_thread_num() ==0)	
+           {
+                data = 42;
+       
+                #pragma omp flush(flag, data)
+               
+    	        flag = 1;
+    
+    	        printf(&quot;Checkpoint 1: flag=%d data=%d. Thread # %d\n\n&quot;, flag, data, omp_get_thread_num());
+                #pragma omp flush(flag)
+        
+            }
+        else if(omp_get_thread_num() == 1)
+        
+            {
+                #pragma omp flush(flag,data)
+                
+                while(data &lt; 1)
+            
+                    {
+                        #pragma omp flush(flag, data)	
+                    }
+    
+    	        printf(&quot;Checkpoint 2: flag=%d data=%d. Thread # %d\n\n&quot;, flag, data, omp_get_thread_num());
+    
+                #pragma omp flush(flag, data)
+    
+    	        printf(&quot;Checkpoint 3: flag=%d data=%d. Thread # %d\n\n&quot;, flag, data, omp_get_thread_num());
+            }
+    }
+    return 0;
+}
+</pre>
+<p><b>Resultados</b>:
+</p>
+<p>Checkpoint 1: flag=1 data=42. Thread # 0
+</p>
+<p>Checkpoint 2: flag=1 data=42. Thread # 1
+</p>
+<p>Checkpoint 3: flag=1 data=42. Thread # 1
+</p>
+<hr size="6">
+<a name="node_005fchapter_005f3"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#node_005fsubsection_005f2_005f4_005f1" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsection_005f3_005f1" title="Secci&oacute;n siguiente en orden de lectura"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f2" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Top" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Clausulas"></a>
+<h1 class="chapter">3. Clausulas</h1>
+                                                
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#node_005fsection_005f3_005f1">3.1 Private</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Clausula Private                           
+</td></tr>
+<tr><td align="left" valign="top"><a href="#node_005fsection_005f3_005f2">3.2 Firstprivate</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Clausula Firstprivate                           
+</td></tr>
+<tr><td align="left" valign="top"><a href="#node_005fsection_005f3_005f3">3.3 Lastprivate</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Clausula Lastpirstprivate                           
+</td></tr>
+</table>
+                                      
+
+<hr size="6">
+<a name="node_005fsection_005f3_005f1"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#node_005fchapter_005f3" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsubsection_005f3_005f1_005f1" title="Secci&oacute;n siguiente en orden de lectura"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f3" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f3" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Private"></a>
+<h2 class="section">3.1 Private</h2>
+
+<p>Como puede verse en los siguientes ejemplos, la clausula <b>private</b> no inicializa la lista de variables dentro del bloque a paralelizar, mientras que la clausula <b>firstprivate</b> retoma el valor que tiene cada una de las variables antes del bloque.
+</p>
+<p>De modo que:
+</p>
+<p><b>private(valor-i_1, ..., valor-i_N)</b>: Los datos de la región paralela nombrados por private son copiados al área de almacenamiento local del hilo (principalmente su pila), lo que significa que cada hilo los usará como variable temporal. Una variable privada no es inicializada y tampoco se mantiene fuera de la región paralela. Por definición, el contador de iteraciones en OpenMP es privado.
+</p>
+<p><b>firstprivate(valor-i_1, ..., valor-i_N)</b>: Cada hilo tiene una copia local del dato. La copia local se inicializa con el valor de la copia global en el momento de encontrarse con la directiva a la que se aplica la cláusula.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#node_005fsubsection_005f3_005f1_005f1">3.1.1 Ejemplo 35.1</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#node_005fsubsection_005f3_005f1_005f2">3.1.2 Ejemplo 35.2</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#node_005fsubsection_005f3_005f1_005f3">3.1.3 Ejemplo 35.3</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="node_005fsubsection_005f3_005f1_005f1"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#node_005fsection_005f3_005f1" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsubsection_005f3_005f1_005f2" title="Secci&oacute;n siguiente en orden de lectura"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f3" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsection_005f3_005f1" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Ejemplo-35_002e1"></a>
+<h3 class="subsection">3.1.1 Ejemplo 35.1</h3>
+
+<p><b>Como en los ejemplos anteriores ejecutamos este ejemplo sin la sintaxis de OpenMP</b>:
+</p>
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+int main()
+{
+    int i, j;
+    int *ptr_i, *ptr_j;
+    
+    i = 1;
+    j = 2;
+    
+    ptr_i = &amp;i;
+    ptr_j = &amp;j;
+    
+    printf(&quot;Checkpoint 1: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+
+    i = 3;
+    j = j + 2;
+    printf(&quot;Checkpoint 2: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+
+    return 0;
+}
+</pre>
+<p><b>Resultado</b>:
+</p>
+<p>Checkpoint 1: i=1 y j=2. Thread #: 0
+</p>
+<p>Checkpoint 2: i=3 y j=4. Thread #: 0
+</p>
+<p><b>Análisis y conclusión</b>
+</p>
+<p>Este resultado no nos sorprende, pues simplemente se imprimen los valores de las variables de manera secuencial. En adelante el análisis es más interesante.
+</p>
+<p><b>Ahora incluimos en nuestro ejemplo la directiva <i>parallel omp</i> y configuramos para 8 threads</b>:
+</p>
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+int main()
+{
+    int i, j;
+    int *ptr_i, *ptr_j;
+    
+    i = 1;
+    j = 2;
+    
+    ptr_i = &amp;i;
+    ptr_j = &amp;j;
+    
+    printf(&quot;Checkpoint 1: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+
+    #pragma omp parallel num_threads(8) 
+
+    {
+        printf(&quot;Checkpoint 2: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+        i = 3;
+        j = j + 2;
+        printf(&quot;Checkpoint 3: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+    }
+
+    printf(&quot;Checkpoint 4: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+    return 0;
+}
+</pre>
+<p><b>Resultado</b>:
+</p>
+<p>Checkpoint 1: i=1 y j=2. Thread #: 0
+</p>
+<p>Checkpoint 2: i=1 y j=2. Thread #: 0
+</p>
+<p>Checkpoint 2: i=1 y j=2. Thread #: 2
+</p>
+<p>Checkpoint 2: i=1 y j=2. Thread #: 6
+</p>
+<p>Checkpoint 2: i=1 y j=2. Thread #: 5
+</p>
+<p>Checkpoint 2: i=1 y j=2. Thread #: 7
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 7
+</p>
+<p>Checkpoint 3: i=3 y j=8. Thread #: 0
+</p>
+<p>Checkpoint 3: i=3 y j=6. Thread #: 5
+</p>
+<p>Checkpoint 2: i=1 y j=2. Thread #: 4
+</p>
+<p>Checkpoint 3: i=3 y j=12. Thread #: 6
+</p>
+<p>Checkpoint 2: i=1 y j=2. Thread #: 1
+</p>
+<p>Checkpoint 3: i=3 y j=14. Thread #: 1
+</p>
+<p>Checkpoint 2: i=1 y j=2. Thread #: 3
+</p>
+<p>Checkpoint 3: i=3 y j=16. Thread #: 4
+</p>
+<p>Checkpoint 3: i=3 y j=18. Thread #: 3
+</p>
+<p>Checkpoint 3: i=3 y j=10. Thread #: 2
+</p>
+<p>Checkpoint 4: i=3 y j=18. Thread #: 0
+</p>
+<p><b>Análisis y conclusión</b>
+</p>
+<p>El <b>checkpoint 1</b> como se encuentra antes de entrar al bloque a paralelizar, utiliza el thread #0; y adquiere los valores de las variables <b>i</b> y <b>j</b> que se declararon justo unas lineas antes.
+</p>
+<p>En el <b>checkpoint 2</b> se utilizan del thread #0 al #8, y de nueva cuenta adquiere los valores de las variables <b>i</b> y <b>j</b> que se declararon antes del bloque.
+</p>
+<p>Luego del <b>checkpoint 2</b> se redefinen las variables <b>i</b> y <b>j</b> a con <b>i = 3</b> y <b>j = j +2</b> por lo que cada thread retoma el valor de la redefinición de <b>i</b> y <b>j</b> dando como resultado que en todo el <b>checkpoint 3</b> la variable <b>i</b> se mantenga constate, pero el valor de <b>j</b> se incrementa en 2 por cada thread, por lo que el valor final de <b>j = 18</b>.
+</p>
+<p>Es notorio que tanto el <b>checkpoint 1</b> como el <b>checkpoint 2</b> están dentro del bloque, por lo que el orden de los threads es de manera desordenada.
+</p>
+<p>Finalmente en el <b>checkpoint 4</b>, al estar fuera del bloque, se retoma el thread #0. Pero con el valor último de la variable <b>j = 18</b>.
+</p>
+<p>Obviamente esta es un pésimo uso de las directivas de OpenMp. Y es un claro ejemplo de que para paralelizar un script es necesario tener bien presentes los conceptos de OpenMP.
+</p>
+<p><b>En el siguiente caso, siguiendo con el mismo ejemplo, vamos a agregar la clausula <i>private</i> para la variable: i</b>:
+</p>
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+int main()
+{
+    int i, j;
+    int *ptr_i, *ptr_j;
+    
+    i = 1;
+    j = 2;
+    
+    ptr_i = &amp;i;
+    ptr_j = &amp;j;
+    
+    printf(&quot;Checkpoint 1: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+
+    #pragma omp parallel num_threads(8) private(i) 
+
+    {
+        printf(&quot;Checkpoint 2: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+        i = 3;
+        j = j + 2;
+        printf(&quot;Checkpoint 3: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+    }
+
+    printf(&quot;Checkpoint 4: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+    return 0;
+}
+</pre>
+<p><b>Lo cual nos arrojó los siguientes resultados</b>:
+</p>
+<p>Checkpoint 1: i=1 y j=2. Thread #: 0
+</p>
+<p>Checkpoint 2: i=0 y j=2. Thread #: 0
+</p>
+<p>Checkpoint 2: i=0 y j=2. Thread #: 6
+</p>
+<p>Checkpoint 2: i=0 y j=2. Thread #: 3
+</p>
+<p>Checkpoint 2: i=0 y j=2. Thread #: 1
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 0
+</p>
+<p>Checkpoint 3: i=3 y j=6. Thread #: 6
+</p>
+<p>Checkpoint 2: i=0 y j=2. Thread #: 5
+</p>
+<p>Checkpoint 3: i=3 y j=8. Thread #: 3
+</p>
+<p>Checkpoint 3: i=3 y j=12. Thread #: 5
+</p>
+<p>Checkpoint 2: i=0 y j=2. Thread #: 7
+</p>
+<p>Checkpoint 3: i=3 y j=14. Thread #: 7
+</p>
+<p>Checkpoint 2: i=0 y j=2. Thread #: 2
+</p>
+<p>Checkpoint 3: i=3 y j=10. Thread #: 1
+</p>
+<p>Checkpoint 3: i=3 y j=16. Thread #: 2
+</p>
+<p>Checkpoint 2: i=0 y j=2. Thread #: 4
+</p>
+<p>Checkpoint 3: i=3 y j=18. Thread #: 4
+</p>
+<p>Checkpoint 4: i=1 y j=18. Thread #: 0
+</p>
+<p><b>Análisis y conclusión</b>
+</p>
+<p>De igual manera que en el caso anterior, el <b>checkpoint 1</b> el thread es el #0, y las variables <b>i</b> y <b>j</b> tienen los valores iniciales: <b>i = 1</b> y <b>j = 2</b>.
+</p>
+<p>Una vez dentro del bloque, el <b>checkpoint 2</b>, haciendo caso de la cláusula <b>privada</b> la variable <b>i</b> se reinicia en este punto con valor <b>i = 0</b>, mentras que la variable <b>j</b> al no ser privada adquiere el valor	que se declaró fuera del bloque. Todo el proceso ocurre usando los threads #0 al #7.
+</p>
+<p>Luego del <b>checkpoint 2</b> la variable <b>i</b> es redefinida como <b>i = 3</b> por lo que a partir de este punto se mantiene constante este valor. No así como la variable <b>j</b> que al no ser declarada como <i>private</i> toma el valor de <b>j = j + 2</b> de modo que por cada thread (ocho en total) se incrementará el valor en 2. Así, el valor final de la variable <b>j</b> será <b>j = 18</b>. (Sin lugar a dudas esta es también es una mala paralelización).
+</p>
+<p>En el <b>checkpoint 4</b> se vuelve a trabajar con el thread #0, e <b>i</b> vuelve a tener el valor que tenía antes del bloque.
+</p>
+<p>Concluimos que esta paralelización no aporta los resultados correctos. Por lo menos para la variable <b>j</b>, pues el valor de la variable <b>i</b> sí es el correcto.
+</p>
+<p><b>en el siguiente caso en vez de usar la cláusula <i>private</i> usaremos la clausula <b>firstprivate</b> para la variable <b>j</b></b>:
+</p>
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+int main()
+{
+    int i, j;
+    int *ptr_i, *ptr_j;
+    
+    i = 1;
+    j = 2;
+    
+    ptr_i = &amp;i;
+    ptr_j = &amp;j;
+    
+    printf(&quot;Checkpoint 1: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+
+    #pragma omp parallel num_threads(8) firstprivate(j) 
+
+    {
+        printf(&quot;Checkpoint 2: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+        i = 3;
+        j = j + 2;
+        printf(&quot;Checkpoint 3: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+    }
+
+    printf(&quot;Checkpoint 4: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+    return 0;
+}
+</pre>
+<p><b>Resultado</b>:
+</p>
+<p>Checkpoint 1: i=1 y j=2. Thread #: 0
+</p>
+<p>Checkpoint 2: i=1 y j=2. Thread #: 0
+</p>
+<p>Checkpoint 2: i=1 y j=2. Thread #: 3
+</p>
+<p>Checkpoint 2: i=1 y j=2. Thread #: 1
+</p>
+<p>Checkpoint 2: i=1 y j=2. Thread #: 6
+</p>
+<p>Checkpoint 2: i=1 y j=2. Thread #: 2
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 6
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 0
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 2
+</p>
+<p>Checkpoint 2: i=1 y j=2. Thread #: 4
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 1
+</p>
+<p>Checkpoint 2: i=1 y j=2. Thread #: 5
+</p>
+<p>Checkpoint 2: i=1 y j=2. Thread #: 7
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 5
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 7
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 4
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 3
+</p>
+<p>Checkpoint 4: i=3 y j=2. Thread #: 0
+</p>
+<p><b>Análisis y conclusión</b>
+</p>
+<p>El <b>checkpoint 1</b> se comporta tal y como lo deseamos. Y es correcto lo que debe de imprimir en pantalla.
+</p>
+<p>Para el <b>checkpoint 2</b> la variable <b>i</b> retoma el valor que tiene antes del bloque de paralelización: <b>i = 1</b>.
+</p>
+<p>Después del <b>checkpoint 2</b> se redefinen las variables. La variable <b>i</b> ahora tiene el valor <b>i = 3</b> y <b>j</b> es <b>j = j + 2</b>. Por lo que el <b>checkpoint 3</b> <b>i</b> mantiene el valor que se redefinió: <b>i = 3</b>. Pero la variable <b>j</b> al ser <i>firstprivate</i> en todos los threads vale: <b>j = 4</b> (j = j + 2 = (2) + 2 = 4) sin incrementarse paulativamente por cada thread.
+</p>
+<p>Finalmente el <b>checkpoint 4</b> adquiere el valor de la variable <b>i = 3</b> pero el de <b>j = 2</b> es decir, al valor que se tenía antes de paralelizar!! Esto es debido al uso de la cláusula <i>firstprivate</i>. Para que el valor que se tiene al final salga del bloque se tendría que usar  la cláusula <i>lastprivate</i>.
+</p>
+<p>Concluimos diciendo que esta tampoco en la mejor paralelización, debido a que no se retiene el valor de <b>j</b> al final del script.
+</p>
+<p><b>Ahora ejecutamos el script usando las cláusulas apropiadas</b>:
+</p>
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+int main()
+{
+    int i, j;
+    int *ptr_i, *ptr_j;
+    
+    i = 1;
+    j = 2;
+    
+    ptr_i = &amp;i;
+    ptr_j = &amp;j;
+    
+    printf(&quot;Checkpoint 1: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+
+    #pragma omp parallel num_threads(8) private(i) firstprivate(j) 
+
+    {
+        printf(&quot;Checkpoint 2: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+        i = 3;
+        j = j + 2;
+        printf(&quot;Checkpoint 3: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+    }
+
+    printf(&quot;Checkpoint 4: i=%d y j=%d. Thread #: %d\n\n&quot;, i, j, omp_get_thread_num());
+    return 0;
+}
+</pre>
+<p><b>Resultado</b>:
+</p>
+
+<p>Checkpoint 1: i=1 y j=2. Thread #: 0
+</p>
+<p>Checkpoint 2: i=0 y j=2. Thread #: 0
+</p>
+<p>Checkpoint 2: i=0 y j=2. Thread #: 7
+</p>
+<p>Checkpoint 2: i=0 y j=2. Thread #: 1
+</p>
+<p>Checkpoint 2: i=0 y j=2. Thread #: 2
+</p>
+<p>Checkpoint 2: i=0 y j=2. Thread #: 3
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 2
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 3
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 0
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 1
+</p>
+<p>Checkpoint 2: i=0 y j=2. Thread #: 6
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 6
+</p>
+<p>Checkpoint 2: i=0 y j=2. Thread #: 5
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 5
+</p>
+<p>Checkpoint 2: i=0 y j=2. Thread #: 4
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 4
+</p>
+<p>Checkpoint 3: i=3 y j=4. Thread #: 7
+</p>
+<p>Checkpoint 4: i=1 y j=2. Thread #: 0
+</p>
+<p><b>Análisis y conclusión</b>
+</p>
+<p>Después de las dicusiones anteriores debe quedar claro el uso de la directiva y las cláusulas en este ejemplo. Más sin embargo hay que decir que esta tampoco es la mejor paralelización, pues el valor de la variable <b>j</b> al salir de la paralelización no conserva el valor correcto, sino	que se reinicia al valor que tenía antes de la paralelización. Para resolver este problema es necesario revisar una cláusula más: <i>lastprivate</i>.
+</p><hr size="6">
+<a name="node_005fsubsection_005f3_005f1_005f2"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#node_005fsubsection_005f3_005f1_005f1" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsubsection_005f3_005f1_005f3" title="Secci&oacute;n siguiente en orden de lectura"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f3" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsection_005f3_005f1" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Ejemplo-35_002e2"></a>
+<h3 class="subsection">3.1.2 Ejemplo 35.2</h3>
+
+<p><b>Ejecutamos el ejemplo comentando la sintáxis de OpenMp:</b> 
+</p>
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+void g(int k); 
+void f(int n);
+int a;
+
+int main()
+{
+    int k = 3;
+    int n = 48;
+    g(k); 
+    f(n);
+    return 0;
+}
+   
+void g(int k) 
+{
+    a = k;
+}
+    
+void f(int n)
+{
+    int a = 0;
+    printf(&quot; valor de a antes de entrar en el pragma: %d\n&quot;, a);
+
+    //#pragma omp parallel for private(a)
+
+    for(int i = 1; i &lt; n; i++)
+    {
+        a = i;
+        g(a * 2);
+        printf(&quot; valor de a  en el ciclo for: %d\n&quot;, a);
+    }
+    printf(&quot; valor de a saliendo del pragma: %d\n&quot;, a);
+}
+
+</pre>
+<p><b>Obteniendo el siguiente resultado</b>
+</p>
+<p>valor de a antes de entrar en el pragma: 0
+</p>
+<p>valor de a  en el ciclo for: 1
+</p>
+<p>valor de a  en el ciclo for: 2
+</p>
+<p>valor de a  en el ciclo for: 3
+</p>
+<p>valor de a  en el ciclo for: 4
+</p>
+<p>valor de a  en el ciclo for: 5
+</p>
+<p>valor de a  en el ciclo for: 6
+</p>
+<p>valor de a  en el ciclo for: 7
+</p>
+<p>valor de a  en el ciclo for: 8
+</p>
+<p>valor de a  en el ciclo for: 9
+</p>
+<p>valor de a  en el ciclo for: 10
+</p>
+<p>valor de a  en el ciclo for: 11
+</p>
+<p>valor de a  en el ciclo for: 12
+</p>
+<p>valor de a  en el ciclo for: 13
+</p>
+<p>valor de a  en el ciclo for: 14
+</p>
+<p>valor de a  en el ciclo for: 15
+</p>
+<p>valor de a  en el ciclo for: 16
+</p>
+<p>valor de a  en el ciclo for: 17
+</p>
+<p>valor de a  en el ciclo for: 18
+</p>
+<p>valor de a  en el ciclo for: 19
+</p>
+<p>valor de a  en el ciclo for: 20
+</p>
+<p>valor de a  en el ciclo for: 21
+</p>
+<p>valor de a  en el ciclo for: 22
+</p>
+<p>valor de a  en el ciclo for: 23
+</p>
+<p>valor de a  en el ciclo for: 24
+</p>
+<p>valor de a  en el ciclo for: 25
+</p>
+<p>valor de a  en el ciclo for: 26
+</p>
+<p>valor de a  en el ciclo for: 27
+</p>
+<p>valor de a  en el ciclo for: 28
+</p>
+<p>valor de a  en el ciclo for: 29
+</p>
+<p>valor de a  en el ciclo for: 30
+</p>
+<p>valor de a  en el ciclo for: 31
+</p>
+<p>valor de a  en el ciclo for: 32
+</p>
+<p>valor de a  en el ciclo for: 33
+</p>
+<p>valor de a  en el ciclo for: 34
+</p>
+<p>valor de a  en el ciclo for: 35
+</p>
+<p>valor de a  en el ciclo for: 36
+</p>
+<p>valor de a  en el ciclo for: 37
+</p>
+<p>valor de a  en el ciclo for: 38
+</p>
+<p>valor de a  en el ciclo for: 39
+</p>
+<p>valor de a  en el ciclo for: 40
+</p>
+<p>valor de a  en el ciclo for: 41
+</p>
+<p>valor de a  en el ciclo for: 42
+</p>
+<p>valor de a  en el ciclo for: 43
+</p>
+<p>valor de a  en el ciclo for: 44
+</p>
+<p>valor de a  en el ciclo for: 45
+</p>
+<p>valor de a  en el ciclo for: 46
+</p>
+<p>valor de a  en el ciclo for: 47
+</p>
+<p>valor de a saliendo del pragma: 47
+</p>
+
+<p><b>Ejecutamos el ejemplo con la sintáxis de OpenMp:</b> 
+</p>
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+void g(int k); 
+void f(int n);
+int a;
+
+int main()
+{
+    int k = 3;
+    int n = 48;
+    g(k); 
+    f(n);
+    return 0;
+}
+   
+void g(int k) 
+{
+    a = k;
+}
+    
+void f(int n)
+{
+    int a = 0;
+    printf(&quot;Valor de a antes de entrar en el pragma: %d\n&quot;, a);
+
+    #pragma omp parallel for private(a)
+
+    for(int i = 1; i &lt; n; i++)
+    {
+        a = i;
+        g(a * 2);
+        printf(&quot;Valor de a  en el ciclo for: %d\n&quot;, a);
+    }
+    printf(&quot;Valor de a saliendo del pragma: %d\n&quot;, a);
+}
+
+</pre>
+<p><b>Obteniendo el siguiente resultado</b>
+</p>
+<p>Valor de a antes de entrar en el pragma: 0
+</p>
+<p>Valor de a  en el ciclo for: 36
+</p>
+<p>Valor de a  en el ciclo for: 39
+</p>
+<p>Valor de a  en el ciclo for: 45
+</p>
+<p>Valor de a  en el ciclo for: 44
+</p>
+<p>Valor de a  en el ciclo for: 30
+</p>
+<p>Valor de a  en el ciclo for: 24
+</p>
+<p>Valor de a  en el ciclo for: 2
+</p>
+<p>Valor de a  en el ciclo for: 40
+</p>
+<p>Valor de a  en el ciclo for: 4
+</p>
+<p>Valor de a  en el ciclo for: 26
+</p>
+<p>Valor de a  en el ciclo for: 42
+</p>
+<p>Valor de a  en el ciclo for: 3
+</p>
+<p>Valor de a  en el ciclo for: 6
+</p>
+<p>Valor de a  en el ciclo for: 43
+</p>
+<p>Valor de a  en el ciclo for: 31
+</p>
+<p>Valor de a  en el ciclo for: 8
+</p>
+<p>Valor de a  en el ciclo for: 28
+</p>
+<p>Valor de a  en el ciclo for: 9
+</p>
+<p>Valor de a  en el ciclo for: 34
+</p>
+<p>Valor de a  en el ciclo for: 41
+</p>
+<p>Valor de a  en el ciclo for: 7
+</p>
+<p>Valor de a  en el ciclo for: 33
+</p>
+<p>Valor de a  en el ciclo for: 11
+</p>
+<p>Valor de a  en el ciclo for: 5
+</p>
+<p>Valor de a  en el ciclo for: 21
+</p>
+<p>Valor de a  en el ciclo for: 20
+</p>
+<p>Valor de a  en el ciclo for: 12
+</p>
+<p>Valor de a  en el ciclo for: 15
+</p>
+<p>Valor de a  en el ciclo for: 18
+</p>
+<p>Valor de a  en el ciclo for: 23
+</p>
+<p>Valor de a  en el ciclo for: 47
+</p>
+<p>Valor de a  en el ciclo for: 22
+</p>
+<p>Valor de a  en el ciclo for: 37
+</p>
+<p>Valor de a  en el ciclo for: 35
+</p>
+<p>Valor de a  en el ciclo for: 38
+</p>
+<p>Valor de a  en el ciclo for: 14
+</p>
+<p>Valor de a  en el ciclo for: 19
+</p>
+<p>Valor de a  en el ciclo for: 27
+</p>
+<p>Valor de a  en el ciclo for: 32
+</p>
+<p>Valor de a  en el ciclo for: 25
+</p>
+<p>Valor de a  en el ciclo for: 16
+</p>
+<p>Valor de a  en el ciclo for: 13
+</p>
+<p>Valor de a  en el ciclo for: 29
+</p>
+<p>Valor de a  en el ciclo for: 17
+</p>
+<p>Valor de a  en el ciclo for: 10
+</p>
+<p>Valor de a  en el ciclo for: 1
+</p>
+<p>Valor de a  en el ciclo for: 46
+</p>
+<p>Valor de a saliendo del pragma: 0
+</p>
+
+<hr size="6">
+<a name="node_005fsubsection_005f3_005f1_005f3"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#node_005fsubsection_005f3_005f1_005f2" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsection_005f3_005f2" title="Secci&oacute;n siguiente en orden de lectura"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f3" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsection_005f3_005f1" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Ejemplo-35_002e3"></a>
+<h3 class="subsection">3.1.3 Ejemplo 35.3</h3>
+
+<p><b>Ejecutamos el ejemplo comentando la sintáxis de OpenMp:</b> 
+</p>
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+void priv_example3();
+
+int main()
+{
+
+    priv_example3();
+    return 0;
+
+}
+
+
+void priv_example3()
+{
+
+    int i, a;
+
+    //#pragma omp parallel private(a) num_threads(6)
+    {
+        printf(&quot;Checkpoint 1: a = %d. Thread #: %d\n\n&quot;, a, omp_get_thread_num());
+    
+        a = 1;
+
+        printf(&quot;Checkpoint 2: a = %d. Thread #: %d\n\n&quot;, a, omp_get_thread_num());
+        //#pragma omp parallel for private(a)
+	for(i = 0; i &lt; 10; i++)
+	{
+	
+            a = 2;	
+	
+        printf(&quot;Checkpoint 3: a = %d. Thread #: %d\n\n&quot;, a, omp_get_thread_num());
+	}
+        //assert(a == 1) ;
+        //printf(&quot;Checkpoint 4: a = %d. Thread #: %d\n\n&quot;, a, omp_get_thread_num());
+    }
+
+}
+
+</pre>
+<p><b>Obteniendo los siguientes resultados</b>:
+</p>
+<p>Checkpoint 1: a = 0. Thread #: 0
+</p>
+<p>Checkpoint 2: a = 1. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 4: a = 2. Thread #: 0
+</p>
+<p><b>Ejecutamos el ejemplo con el primer pragma activo</b>: 
+</p>
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+void priv_example3();
+
+int main()
+{
+
+    priv_example3();
+    return 0;
+
+}
+
+
+void priv_example3()
+{
+
+    int i, a;
+
+    #pragma omp parallel private(a) num_threads(6)
+    {
+        printf(&quot;Checkpoint 1: a = %d. Thread #: %d\n\n&quot;, a, omp_get_thread_num());
+    
+        a = 1;
+
+        printf(&quot;Checkpoint 2: a = %d. Thread #: %d\n\n&quot;, a, omp_get_thread_num());
+        //#pragma omp parallel for private(a)
+	for(i = 0; i &lt; 10; i++)
+	{
+	
+            a = 2;	
+	
+        printf(&quot;Checkpoint 3: a = %d. Thread #: %d\n\n&quot;, a, omp_get_thread_num());
+	}
+        //assert(a == 1) ;
+        printf(&quot;Checkpoint 4: a = %d. Thread #: %d\n\n&quot;, a, omp_get_thread_num());
+    }
+
+}
+
+</pre>
+<p><b>Obteniendo los siguientes resultados</b>:
+</p>
+<p>Checkpoint 1: a = 0. Thread #: 0
+</p>
+<p>Checkpoint 2: a = 1. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 4: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 1: a = 0. Thread #: 3
+</p>
+<p>Checkpoint 2: a = 1. Thread #: 3
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 3
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 3
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 3
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 3
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 3
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 3
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 3
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 3
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 3
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 3
+</p>
+<p>Checkpoint 1: a = 0. Thread #: 5
+</p>
+<p>Checkpoint 2: a = 1. Thread #: 5
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 5
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 5
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 5
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 5
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 5
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 5
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 5
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 5
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 5
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 5
+</p>
+<p>Checkpoint 1: a = 0. Thread #: 1
+</p>
+<p>Checkpoint 2: a = 1. Thread #: 1
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 1
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 1
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 1
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 1
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 1
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 1
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 1
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 1
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 1
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 1
+</p>
+<p>Checkpoint 1: a = 0. Thread #: 2
+</p>
+<p>Checkpoint 2: a = 1. Thread #: 2
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 2
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 2
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 2
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 2
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 2
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 2
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 2
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 2
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 2
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 2
+</p>
+<p>Checkpoint 4: a = 2. Thread #: 2
+</p>
+<p>Checkpoint 1: a = 0. Thread #: 4
+</p>
+<p>Checkpoint 4: a = 2. Thread #: 3
+</p>
+<p>Checkpoint 2: a = 1. Thread #: 4
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 4
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 4
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 4
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 4
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 4
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 4
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 4
+</p>
+<p>Checkpoint 4: a = 2. Thread #: 5
+</p>
+<p>Checkpoint 4: a = 2. Thread #: 1
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 4
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 4
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 4
+</p>
+<p>Checkpoint 4: a = 2. Thread #: 4
+</p>
+<p><b>Ejecutamos el ejemplo con ambos pragmas activos</b>: 
+</p>
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+void priv_example3();
+
+int main()
+{
+
+    priv_example3();
+    return 0;
+
+}
+
+
+void priv_example3()
+{
+
+    int i, a;
+
+    #pragma omp parallel private(a) num_threads(6)
+    {
+        printf(&quot;Checkpoint 1: a = %d. Thread #: %d\n\n&quot;, a, omp_get_thread_num());
+    
+        a = 1;
+
+        printf(&quot;Checkpoint 2: a = %d. Thread #: %d\n\n&quot;, a, omp_get_thread_num());
+        #pragma omp parallel for private(a)
+	for(i = 0; i &lt; 10; i++)
+	{
+	
+            a = 2;	
+	
+        printf(&quot;Checkpoint 3: a = %d. Thread #: %d\n\n&quot;, a, omp_get_thread_num());
+	}
+        //assert(a == 1) ;
+        printf(&quot;Checkpoint 4: a = %d. Thread #: %d\n\n&quot;, a, omp_get_thread_num());
+    }
+
+}
+
+</pre>
+<p><b>Obteniendo los siguientes resultados</b>:
+</p>
+<p>Checkpoint 1: a = 0. Thread #: 0
+</p>
+<p>Checkpoint 2: a = 1. Thread #: 0
+</p>
+<p>Checkpoint 1: a = 0. Thread #: 1
+</p>
+<p>Checkpoint 2: a = 1. Thread #: 1
+</p>
+<p>Checkpoint 1: a = 0. Thread #: 2
+</p>
+<p>Checkpoint 2: a = 1. Thread #: 2
+</p>
+<p>Checkpoint 1: a = 0. Thread #: 3
+</p>
+<p>Checkpoint 2: a = 1. Thread #: 3
+</p>
+<p>Checkpoint 1: a = 0. Thread #: 4
+</p>
+<p>Checkpoint 2: a = 1. Thread #: 4
+</p>
+<p>Checkpoint 1: a = 0. Thread #: 5
+</p>
+<p>Checkpoint 2: a = 1. Thread #: 5
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 4: a = 1. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 4: a = 1. Thread #: 1
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 4: a = 1. Thread #: 3
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 4: a = 1. Thread #: 5
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 4: a = 1. Thread #: 2
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 3: a = 2. Thread #: 0
+</p>
+<p>Checkpoint 4: a = 1. Thread #: 4
+</p>
+<hr size="6">
+<a name="node_005fsection_005f3_005f2"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#node_005fsubsection_005f3_005f1_005f3" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsubsection_005f3_005f2_005f1" title="Secci&oacute;n siguiente en orden de lectura"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f3" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f3" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Firstprivate"></a>
+<h2 class="section">3.2 Firstprivate</h2>
+
+<p>firstprivate(valor-i_1, ..., valor-i_N): Cada hilo tiene una copia local del dato. La copia local se inicializa con el valor de la copia global en el momento de encontrarse con la directiva a la que se aplica la cláusula.
+</p>
+<p>Esta clausula declara privadas las variables de la lista y además las inicializa a sus valores anteriores (valores en el master). Las variables globales son recogidas por el master.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#node_005fsubsection_005f3_005f2_005f1">3.2.1 Ejemplo 37.1</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="node_005fsubsection_005f3_005f2_005f1"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#node_005fsection_005f3_005f2" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsection_005f3_005f3" title="Secci&oacute;n siguiente en orden de lectura"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f3" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsection_005f3_005f2" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Ejemplo-37_002e1"></a>
+<h3 class="subsection">3.2.1 Ejemplo 37.1</h3>
+
+<p><b>Se ejecuto en un primer momemnto sin la sintaxis de OpenMP</b>
+</p>
+<pre class="verbatim">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+void f(int n, int B[n][n], int C[]);
+
+int A[2][2] = {1, 2, 3, 4};
+
+int main()
+{
+
+    f(2, A, A[0]);
+    return 0;
+
+}
+
+void f(int n, int B[n][n], int C[])
+{
+    
+    int D[2][2] = {1, 2, 3, 4};
+    int E[n][n];
+    
+    assert(n&gt;=2);
+    E[1][1] = 4;
+    
+    printf(&quot;Checkpoint 1: A = %d, B = %d, C = %d, D = %d, E = %d. Hilo# %d\n\n&quot;, A, B, C, D, E, omp_get_thread_num());
+    //#pragma omp parallel firstprivate(B, C, D, E) num_threads(8)
+    {
+    printf(&quot;Checkpoint 2: A = %d, B = %d, C = %d, D = %d, E = %d. Hilo# %d\n\n&quot;, A, B, C, D, E, omp_get_thread_num());
+    
+        assert(sizeof(B) == sizeof(int (*)[n]));
+        assert(sizeof(C) == sizeof(int *));
+        assert(sizeof(D) == 4 * sizeof(int));
+        assert(sizeof(E) == n * n * sizeof(int));
+        
+        assert(&amp;B[1][1] == &amp;A[1][1]);
+        assert(&amp;C[3] == &amp;A[1][1]);
+        assert(D[1][1] == 4);
+        assert(E[1][1] == 4);
+    
+    }
+    
+    printf(&quot;Checkpoint 3: A = %d, B = %d, C = %d, D = %d, E = %d. Hilo# %d\n\n&quot;, A, B, C, D, E, omp_get_thread_num());
+}
+
+
+</pre>
+<p><b>Obteniendo los siguientes resultados</b>:
+</p>
+
+<p>Checkpoint 1: A = 1867792464, B = 1867792464, C = 1867792464, D = -1809097120, E = -1809097168. Hilo# 0
+</p>
+<p>Checkpoint 2: A = 1867792464, B = 1867792464, C = 1867792464, D = -1809097120, E = -1809097168. Hilo# 0
+</p>
+<p>Checkpoint 3: A = 1867792464, B = 1867792464, C = 1867792464, D = -1809097120, E = -1809097168. Hilo# 0
+</p>
+<p><b>Luego con OpenMP</b>
+</p>
+
+<pre class="verbatim">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+void f(int n, int B[n][n], int C[]);
+
+int A[2][2] = {1, 2, 3, 4};
+
+int main()
+{
+
+    f(2, A, A[0]);
+    return 0;
+
+}
+
+void f(int n, int B[n][n], int C[])
+{
+    
+    int D[2][2] = {1, 2, 3, 4};
+    int E[n][n];
+    
+    assert(n&gt;=2);
+    E[1][1] = 4;
+    
+    printf(&quot;Checkpoint 1: A = %d, B = %d, C = %d, D = %d, E = %d. Hilo# %d\n\n&quot;, A, B, C, D, E, omp_get_thread_num());
+    #pragma omp parallel firstprivate(B, C, D, E) num_threads(8)
+    {
+    printf(&quot;Checkpoint 2: A = %d, B = %d, C = %d, D = %d, E = %d. Hilo# %d\n\n&quot;, A, B, C, D, E, omp_get_thread_num());
+    
+        assert(sizeof(B) == sizeof(int (*)[n]));
+        assert(sizeof(C) == sizeof(int *));
+        assert(sizeof(D) == 4 * sizeof(int));
+        assert(sizeof(E) == n * n * sizeof(int));
+        
+        assert(&amp;B[1][1] == &amp;A[1][1]);
+        assert(&amp;C[3] == &amp;A[1][1]);
+        assert(D[1][1] == 4);
+        assert(E[1][1] == 4);
+    
+    }
+    
+    printf(&quot;Checkpoint 3: A = %d, B = %d, C = %d, D = %d, E = %d. Hilo# %d\n\n&quot;, A, B, C, D, E, omp_get_thread_num());
+}
+
+
+</pre>
+
+
+
+
+<p><b>Resultados</b>
+</p>
+<p>Checkpoint 1: A = 253075552, B = 253075552, C = 253075552, D = -834303568, E = -834303632. Hilo# 0
+</p>
+<p>Checkpoint 2: A = 253075552, B = 253075552, C = 253075552, D = -834303776, E = -834303824. Hilo# 0
+</p>
+<p>Checkpoint 2: A = 253075552, B = 253075552, C = 253075552, D = -891060752, E = -891060800. Hilo# 4
+</p>
+<p>Checkpoint 2: A = 253075552, B = 253075552, C = 253075552, D = -907846160, E = -907846208. Hilo# 6
+</p>
+<p>Checkpoint 2: A = 253075552, B = 253075552, C = 253075552, D = -916238864, E = -916238912. Hilo# 7
+</p>
+<p>Checkpoint 2: A = 253075552, B = 253075552, C = 253075552, D = -882668048, E = -882668096. Hilo# 3
+</p>
+<p>Checkpoint 2: A = 253075552, B = 253075552, C = 253075552, D = -865882640, E = -865882688. Hilo# 1
+</p>
+<p>Checkpoint 2: A = 253075552, B = 253075552, C = 253075552, D = -874275344, E = -874275392. Hilo# 2
+</p>
+<p>Checkpoint 2: A = 253075552, B = 253075552, C = 253075552, D = -899453456, E = -899453504. Hilo# 5
+</p>
+<p>Checkpoint 3: A = 253075552, B = 253075552, C = 253075552, D = -834303568, E = -834303632. Hilo# 0
+</p>
+
+<hr size="6">
+<a name="node_005fsection_005f3_005f3"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#node_005fsubsection_005f3_005f2_005f1" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsubsection_005f3_005f3_005f1" title="Secci&oacute;n siguiente en orden de lectura"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f3" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f3" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Lastprivate"></a>
+<h2 class="section">3.3 Lastprivate</h2>
+
+
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#node_005fsubsection_005f3_005f3_005f1">3.3.1 Ejemplo 38.1</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="node_005fsubsection_005f3_005f3_005f1"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#node_005fsection_005f3_005f3" title="Secci&oacute;n anterior en orden de lectura"> &lt; </a>]</td>
+<td valign="middle" align="left">[ &gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#node_005fchapter_005f3" title="Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#node_005fsection_005f3_005f3" title="Subir secci&oacute;n"> Subir </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<a name="Ejemplo-38_002e1"></a>
+<h3 class="subsection">3.3.1 Ejemplo 38.1</h3>
+
+<p><b>Sin la sintaxis de OpenMP</b>
+</p>
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+#define TAMANO 50
+
+void lastpriv(int n, float *a, float *b);
+
+int main()
+{
+    int n = 11;
+    float a[TAMANO];
+    float b[TAMANO];
+
+    lastpriv(n, a, b);
+    return 0;
+}
+
+
+void lastpriv(int n, float *a, float *b)
+{
+    int i;
+    
+    #pragma omp parallel num_threads(9)
+    {
+        #pragma omp for lastprivate(i)
+        for(i = 0; i &lt;n-1; i++)
+	{
+            a[i] = b[i] + b[i+1];
+            printf(&quot;Checkpoint 1: a[%d] = %f. Thread # %d\n\n&quot;, i, a[i], omp_get_thread_num());
+	}
+    }
+    
+     printf(&quot;Checkpoint 2: a[%d] = %f. Thread # %d\n\n&quot;, i, a[i], omp_get_thread_num());
+     a[i] = b[i];
+     printf(&quot;Checkpoint 3: a[%d] = %f. Thread # %d\n\n&quot;, i, a[i], omp_get_thread_num());
+}
+
+
+</pre>
+<p><b>Resultados</b>
+</p>
+
+<p>Checkpoint 1: a[0] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: a[1] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: a[2] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: a[3] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: a[4] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: a[5] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: a[6] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: a[7] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: a[8] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: a[9] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 2: a[10] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 3: a[10] = 0.000000. Thread # 0
+</p>
+<p><b>Paralelizando usando parallel omp omp_threads()</b>
+</p>
+
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+#define TAMANO 50
+
+void lastpriv(int n, float *a, float *b);
+
+int main()
+{
+    int n = 11;
+    float a[TAMANO];
+    float b[TAMANO];
+
+    lastpriv(n, a, b);
+    return 0;
+}
+
+
+void lastpriv(int n, float *a, float *b)
+{
+    int i;
+    
+    #pragma omp parallel num_threads(9)
+    {
+        //#pragma omp for lastprivate(i)
+        for(i = 0; i &lt;n-1; i++)
+	{
+            a[i] = b[i] + b[i+1];
+            printf(&quot;Checkpoint 1: a[%d] = %f. Thread # %d\n\n&quot;, i, a[i], omp_get_thread_num());
+	}
+    }
+    
+     printf(&quot;Checkpoint 2: a[%d] = %f. Thread # %d\n\n&quot;, i, a[i], omp_get_thread_num());
+     a[i] = b[i];
+     printf(&quot;Checkpoint 3: a[%d] = %f. Thread # %d\n\n&quot;, i, a[i], omp_get_thread_num());
+}
+
+
+</pre>
+<p><b>Resultados</b>
+</p>
+<p>Checkpoint 1: a[0] = 0.000000. Thread # 4
+</p>
+<p>Checkpoint 1: a[1] = 0.000000. Thread # 4
+</p>
+<p>Checkpoint 1: a[2] = 0.000000. Thread # 4
+</p>
+<p>Checkpoint 1: a[3] = 0.000000. Thread # 4
+</p>
+<p>Checkpoint 1: a[4] = 0.000000. Thread # 4
+</p>
+<p>Checkpoint 1: a[5] = 0.000000. Thread # 4
+</p>
+<p>Checkpoint 1: a[0] = 0.000000. Thread # 8
+</p>
+<p>Checkpoint 1: a[0] = 0.000000. Thread # 7
+</p>
+<p>Checkpoint 1: a[7] = 0.000000. Thread # 8
+</p>
+<p>Checkpoint 1: a[8] = 0.000000. Thread # 8
+</p>
+<p>Checkpoint 1: a[9] = 0.000000. Thread # 8
+</p>
+<p>Checkpoint 1: a[0] = 0.000000. Thread # 2
+</p>
+<p>Checkpoint 1: a[0] = 0.000000. Thread # 3
+</p>
+<p>Checkpoint 1: a[0] = 0.000000. Thread # 6
+</p>
+<p>Checkpoint 1: a[0] = 0.000000. Thread # 5
+</p>
+<p>Checkpoint 1: a[0] = 0.000000. Thread # 1
+</p>
+<p>Checkpoint 1: a[0] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: a[6] = 0.000000. Thread # 4
+</p>
+<p>Checkpoint 2: a[18] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 3: a[18] = 0.000000. Thread # 0
+</p>
+
+<p><b>Paralelizando hasta omp for</b>
+</p>
+
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+#define TAMANO 50
+
+void lastpriv(int n, float *a, float *b);
+
+int main()
+{
+    int n = 11;
+    float a[TAMANO];
+    float b[TAMANO];
+
+    lastpriv(n, a, b);
+    return 0;
+}
+
+
+void lastpriv(int n, float *a, float *b)
+{
+    int i;
+    
+    #pragma omp parallel num_threads(9)
+    {
+        //#pragma omp for lastprivate(i)
+        for(i = 0; i &lt;n-1; i++)
+	{
+            a[i] = b[i] + b[i+1];
+            printf(&quot;Checkpoint 1: a[%d] = %f. Thread # %d\n\n&quot;, i, a[i], omp_get_thread_num());
+	}
+    }
+    
+     printf(&quot;Checkpoint 2: a[%d] = %f. Thread # %d\n\n&quot;, i, a[i], omp_get_thread_num());
+     a[i] = b[i];
+     printf(&quot;Checkpoint 3: a[%d] = %f. Thread # %d\n\n&quot;, i, a[i], omp_get_thread_num());
+}
+
+
+</pre>
+<p><b>Resultados</b>
+</p>
+<p>Checkpoint 1: a[2] = 0.000000. Thread # 1
+</p>
+<p>Checkpoint 1: a[0] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: a[1] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: a[8] = 0.000000. Thread # 7
+</p>
+<p>Checkpoint 1: a[6] = 0.000000. Thread # 5
+</p>
+<p>Checkpoint 1: a[5] = 0.000000. Thread # 4
+</p>
+<p>Checkpoint 1: a[7] = 0.000000. Thread # 6
+</p>
+<p>Checkpoint 1: a[9] = 0.000000. Thread # 8
+</p>
+<p>Checkpoint 1: a[4] = 0.000000. Thread # 3
+</p>
+<p>Checkpoint 1: a[3] = 0.000000. Thread # 2
+</p>
+<p>Checkpoint 2: a[0] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 3: a[0] = 0.000000. Thread # 0
+</p>
+<p><b>Paralelizando todo</b>
+</p>
+
+
+<pre class="verbatim">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;math.h&gt;
+#include &lt;omp.h&gt;
+#include &lt;assert.h&gt;
+
+#define TAMANO 50
+
+void lastpriv(int n, float *a, float *b);
+
+int main()
+{
+    int n = 11;
+    float a[TAMANO];
+    float b[TAMANO];
+
+    lastpriv(n, a, b);
+    return 0;
+}
+
+
+void lastpriv(int n, float *a, float *b)
+{
+    int i;
+    
+    #pragma omp parallel num_threads(9)
+    {
+        //#pragma omp for lastprivate(i)
+        for(i = 0; i &lt;n-1; i++)
+	{
+            a[i] = b[i] + b[i+1];
+            printf(&quot;Checkpoint 1: a[%d] = %f. Thread # %d\n\n&quot;, i, a[i], omp_get_thread_num());
+	}
+    }
+    
+     printf(&quot;Checkpoint 2: a[%d] = %f. Thread # %d\n\n&quot;, i, a[i], omp_get_thread_num());
+     a[i] = b[i];
+     printf(&quot;Checkpoint 3: a[%d] = %f. Thread # %d\n\n&quot;, i, a[i], omp_get_thread_num());
+}
+
+
+</pre><p><b>Resultados</b>
+</p>
+
+
+<p>Checkpoint 1: a[0] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: a[1] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 1: a[6] = 0.000000. Thread # 5
+</p>
+<p>Checkpoint 1: a[4] = 0.000000. Thread # 3
+</p>
+<p>Checkpoint 1: a[2] = 0.000000. Thread # 1
+</p>
+<p>Checkpoint 1: a[7] = 0.000000. Thread # 6
+</p>
+<p>Checkpoint 1: a[9] = 0.000000. Thread # 8
+</p>
+<p>Checkpoint 1: a[8] = 0.000000. Thread # 7
+</p>
+<p>Checkpoint 1: a[3] = 0.000000. Thread # 2
+</p>
+<p>Checkpoint 1: a[5] = 0.000000. Thread # 4
+</p>
+<p>Checkpoint 2: a[10] = 0.000000. Thread # 0
+</p>
+<p>Checkpoint 3: a[10] = 0.000000. Thread # 0
+</p>
+
+
+
+<hr size="6">
+<a name="SEC_Contents"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<h1>&Iacute;ndice General</h1>
+<div class="contents">
+
+<ul class="toc">
+  <li><a name="toc-Introduccion" href="#node_005fchapter_005f1">1. Introducción</a>
+  <ul class="toc">
+    <li><a name="toc-Servidor-Sor-Juana" href="#node_005fsection_005f1_005f1">1.1 Servidor Sor Juana</a>
+    <ul class="toc">
+      <li><a name="toc-Informacion-General-del-servidor" href="#node_005fsubsection_005f1_005f1_005f1">1.1.1 Información General del servidor</a></li>
+    </ul></li>
+    <li><a name="toc-_00bfQue-es-OpenMP_003f" href="#node_005fsection_005f1_005f2">1.2 ¿Qué es OpenMP?</a>
+    <ul class="toc">
+      <li><a name="toc-Ejemplo-1_002e1" href="#node_005fsubsection_005f1_005f2_005f1">1.2.1 Ejemplo 1.1</a></li>
+    </ul>
+</li>
+  </ul></li>
+  <li><a name="toc-Directivas" href="#node_005fchapter_005f2">2. Directivas</a>
+  <ul class="toc">
+    <li><a name="toc-Flush" href="#node_005fsection_005f2_005f4">2.1 Flush</a>
+    <ul class="toc">
+      <li><a name="toc-Ejemplo-2_002e2" href="#node_005fsubsection_005f2_005f4_005f1">2.1.1 Ejemplo 2.2</a></li>
+    </ul>
+</li>
+  </ul></li>
+  <li><a name="toc-Clausulas" href="#node_005fchapter_005f3">3. Clausulas</a>
+  <ul class="toc">
+    <li><a name="toc-Private" href="#node_005fsection_005f3_005f1">3.1 Private</a>
+    <ul class="toc">
+      <li><a name="toc-Ejemplo-35_002e1" href="#node_005fsubsection_005f3_005f1_005f1">3.1.1 Ejemplo 35.1</a></li>
+      <li><a name="toc-Ejemplo-35_002e2" href="#node_005fsubsection_005f3_005f1_005f2">3.1.2 Ejemplo 35.2</a></li>
+      <li><a name="toc-Ejemplo-35_002e3" href="#node_005fsubsection_005f3_005f1_005f3">3.1.3 Ejemplo 35.3</a></li>
+    </ul></li>
+    <li><a name="toc-Firstprivate" href="#node_005fsection_005f3_005f2">3.2 Firstprivate</a>
+    <ul class="toc">
+      <li><a name="toc-Ejemplo-37_002e1" href="#node_005fsubsection_005f3_005f2_005f1">3.2.1 Ejemplo 37.1</a></li>
+    </ul></li>
+    <li><a name="toc-Lastprivate" href="#node_005fsection_005f3_005f3">3.3 Lastprivate</a>
+    <ul class="toc">
+      <li><a name="toc-Ejemplo-38_002e1" href="#node_005fsubsection_005f3_005f3_005f1">3.3.1 Ejemplo 38.1</a></li>
+    </ul>
+</li>
+  </ul>
+</li>
+</ul>
+</div>
+<hr size="1">
+<a name="SEC_About"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Top" title="Portada del documento">Arriba</a>]</td>
+<td valign="middle" align="left">[<a href="#SEC_Contents" title="&Iacute;ndice general">&Iacute;ndice general</a>]</td>
+<td valign="middle" align="left">[&Iacute;ndice]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="Acerca de (p&aacute;gina de ayuda)"> ? </a>]</td>
+</tr></table>
+<h1>Acerca de este documento</h1>
+<p>
+  Este documento ha sido generado por <em>Gustavo Magallanes GuijÃ³n</em> el <em>el 1 octubre 2019</em> utilizando <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+</p>
+<p>
+  Los botones de los paneles de navegaci&oacute;n tienen el significado siguiente:
+</p>
+<table border="1">
+  <tr>
+    <th> Bot&oacute;n </th>
+    <th> Nombre </th>
+    <th> Ir a </th>
+    <th> Desde 1.2.3 ir a</th>
+  </tr>
+  <tr>
+    <td align="center"> [ &lt; ] </td>
+    <td align="center">Atr&aacute;s</td>
+    <td>Secci&oacute;n anterior en orden de lectura</td>
+    <td>1.2.2</td>
+  </tr>
+  <tr>
+    <td align="center"> [ &gt; ] </td>
+    <td align="center">Adelante</td>
+    <td>Secci&oacute;n siguiente en orden de lectura</td>
+    <td>1.2.4</td>
+  </tr>
+  <tr>
+    <td align="center"> [ &lt;&lt; ] </td>
+    <td align="center">Retroceso r&aacute;pido</td>
+    <td>Inicio de este cap&iacute;tulo o cap&iacute;tulo anterior</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td align="center"> [ Subir ] </td>
+    <td align="center">Subir</td>
+    <td>Subir secci&oacute;n</td>
+    <td>1.2</td>
+  </tr>
+  <tr>
+    <td align="center"> [ &gt;&gt; ] </td>
+    <td align="center">Avance r&aacute;pido</td>
+    <td>Cap&iacute;tulo siguiente</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td align="center"> [Arriba] </td>
+    <td align="center">Arriba</td>
+    <td>Portada del documento</td>
+    <td> &nbsp; </td>
+  </tr>
+  <tr>
+    <td align="center"> [&Iacute;ndice general] </td>
+    <td align="center">&Iacute;ndice general</td>
+    <td>&Iacute;ndice general</td>
+    <td> &nbsp; </td>
+  </tr>
+  <tr>
+    <td align="center"> [&Iacute;ndice] </td>
+    <td align="center">&Iacute;ndice</td>
+    <td>&Iacute;ndice</td>
+    <td> &nbsp; </td>
+  </tr>
+  <tr>
+    <td align="center"> [ ? ] </td>
+    <td align="center">Acerca de</td>
+    <td>Acerca de (p&aacute;gina de ayuda)</td>
+    <td> &nbsp; </td>
+  </tr>
+</table>
+
+<p>
+  donde el <strong> Ejemplo </strong> supone que la posiciÃ³n actual estÃ¡ en la <strong> Sub-subsecci&oacute;n uno-dos-tres </strong> de un documento de la estructura siguiente:
+</p>
+
+<ul>
+  <li> 1. Secci&oacute;n Uno
+    <ul>
+      <li>1.1 Subsecci&oacute;n uno-uno
+        <ul>
+          <li>...</li>
+        </ul>
+      </li>
+      <li>1.2 Subsecci&oacute;n uno-dos
+        <ul>
+          <li>1.2.1 Sub-subsecci&oacute;n uno-dos-uno</li>
+          <li>1.2.2 Sub-subsecci&oacute;n uno-dos-dos</li>
+          <li>1.2.3 Sub-subsecci&oacute;n uno-dos-tres &nbsp; &nbsp;
+            <strong>&lt;== Posici&oacute;n actual </strong></li>
+          <li>1.2.4 Sub-subsecci&oacute;n uno-dos-cuatro</li>
+        </ul>
+      </li>
+      <li>1.3 Subsecci&oacute;n uno-tres
+        <ul>
+          <li>...</li>
+        </ul>
+      </li>
+      <li>1.4 Subsecci&oacute;n uno-cuatro</li>
+    </ul>
+  </li>
+</ul>
+
+<hr size="1">
+<p>
+ <font size="-1">
+  Este documento ha sido generado por <em>Gustavo Magallanes GuijÃ³n</em> el <em>el 1 octubre 2019</em> utilizando <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

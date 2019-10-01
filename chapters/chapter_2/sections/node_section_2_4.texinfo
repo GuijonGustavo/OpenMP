@@ -1,0 +1,24 @@
+@node node_section_2_4
+@section Flush
+
+La directiva @b{flush} resuelve la consistencia entre variables al exportar a todos los threads un valor modificado de una variable que ha realizado otro thread en el procesamiento paralelo. Es decir, para cuando el thread llega a la directiva flush, la información del valor de esa variable se exporta al resto de los threads generando con esto consistencia entre los threads. De manera que, esta directiva asegura que las modificaciones hechas por un thread sean efectivas.
+
+Si @i{flush} se aplica a todas las variables podría ser muy costoso en términos de rendimiento.
+
+Está directiva está presente @b{implícitamente} en las siguientes directivas:
+@itemize
+@item @i{barrrier},
+@item @i{critical},
+@item @i{ordered}, 
+@item @i{parallel},
+@item @i{parallel for},
+@item @i{parallel sections},
+@item @i{parallel workshare},
+@item @i{atomic}
+@end itemize
+
+@menu
+* node_subsection_2_4_1:: Ejemplo 2.2c
+@end menu
+
+@include @file{chapters/chapter_2/sections/subsections/node_subsection_2_4_1.texinfo} 

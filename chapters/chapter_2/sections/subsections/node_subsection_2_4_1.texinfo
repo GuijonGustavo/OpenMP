@@ -1,0 +1,159 @@
+@node node_subsection_2_4_1 
+@subsection Ejemplo 2.2
+
+@b{Este ejemplo se ejecuta primero sin la sintaxis de OpenMP.}
+
+@verbatim
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+int main()
+{
+    int data;
+    int flag=0;
+    
+    {
+        if (omp_get_thread_num() ==0)	
+           {
+                data = 42;
+       
+    	        flag = 1;
+    
+    	        printf("Checkpoint 1: flag=%d data=%d. Thread # %d\n\n", flag, data, omp_get_thread_num());
+        
+            }
+
+        else if(omp_get_thread_num() == 1)
+        
+            {
+    	        printf("Checkpoint 2: flag=%d data=%d. Thread # %d\n\n", flag, data, omp_get_thread_num());
+    
+    	        printf("Checkpoint 3: flag=%d data=%d. Thread # %d\n\n", flag, data, omp_get_thread_num());
+            }
+    }
+    return 0;
+}
+@end verbatim 
+
+@b{Obteniendo los siguientes resultados}:
+
+Checkpoint 1: flag=1 data=42. Thread # 0
+
+@b{Análisis y conclusión}
+
+Este ejemplo solo utilza dos threads, en caso de que se declaracen más sólo filtraría el thread # 0 y el thread # 1. De modo que no tiene sentido usar más hilos que los necesarios. 
+
+Por otro lado, vemos que sólo imprimió el @b{checkpoint 1}, y la razón es simple: sin paralelizar el "thread maestro" es el thread # 0. Así que con esta configuración solo se imprimira el @b{checkpoint 1} y nunca se imprimira el @b{checkpoint 2} ni el @b{checkpoint 3}. 
+
+@b{Ahora ejecutamos el mismo ejemplo, pero sólo con la directiva @i{parallel.} y para que trabaje con 2 threads}
+@verbatim
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+int main()
+{
+    int data;
+    int flag=0;
+    
+    #pragma omp parallel num_threads(2)
+    {
+        if (omp_get_thread_num() ==0)	
+           {
+                data = 42;
+       
+    	        flag = 1;
+    
+    	        printf("Checkpoint 1: flag=%d data=%d. Thread # %d\n\n", flag, data, omp_get_thread_num());
+            }
+        else if(omp_get_thread_num() == 1)
+        
+            {
+    	        printf("Checkpoint 2: flag=%d data=%d. Thread # %d\n\n", flag, data, omp_get_thread_num());
+    
+            }
+    }
+    return 0;
+}
+@end verbatim 
+
+@b{Resultados}:
+
+Checkpoint 1: flag=1 data=42. Thread # 0
+
+Checkpoint 2: flag=1 data=42. Thread # 1
+
+@b{Análisis y conclusión}
+
+Dado que se configuró el bloque a paralelizar con dos threads, los únicos threads presentes son el # 0 y el # 1.
+
+En el @b{checkpoint 1} vemos que dado que se cumple la condición se establecen los valores de las variables como es esperado. Por lo que el @b{checkpoint 2} imprime lo esperado.
+
+@b{Finalmente usamos todas las directivas propuestas de OpenMP en el ejemplo. Tanto @i{parallel} como @i{flush}}:
+@verbatim
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+int main()
+{
+    int data;
+    int flag=0;
+    
+    #pragma omp parallel num_threads(2)
+    {
+        if (omp_get_thread_num() ==0)	
+           {
+                data = 42;
+       
+                #pragma omp flush(flag, data)
+               
+    	        flag = 1;
+    
+    	        printf("Checkpoint 1: flag=%d data=%d. Thread # %d\n\n", flag, data, omp_get_thread_num());
+                #pragma omp flush(flag)
+        
+            }
+        else if(omp_get_thread_num() == 1)
+        
+            {
+                #pragma omp flush(flag,data)
+                
+                while(data < 1)
+            
+                    {
+                        #pragma omp flush(flag, data)	
+                    }
+    
+    	        printf("Checkpoint 2: flag=%d data=%d. Thread # %d\n\n", flag, data, omp_get_thread_num());
+    
+                #pragma omp flush(flag, data)
+    
+    	        printf("Checkpoint 3: flag=%d data=%d. Thread # %d\n\n", flag, data, omp_get_thread_num());
+            }
+    }
+    return 0;
+}
+@end verbatim 
+
+@b{Resultados}:
+
+Checkpoint 1: flag=1 data=42. Thread # 0
+
+Checkpoint 2: flag=1 data=42. Thread # 1
+
+Checkpoint 3: flag=1 data=42. Thread # 1
+

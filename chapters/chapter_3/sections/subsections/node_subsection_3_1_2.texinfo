@@ -1,0 +1,297 @@
+@node node_subsection_3_1_2 
+@subsection Ejemplo 35.2
+
+@b{Ejecutamos el ejemplo comentando la sintáxis de OpenMp:} 
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+void g(int k); 
+void f(int n);
+int a;
+
+int main()
+{
+    int k = 3;
+    int n = 48;
+    g(k); 
+    f(n);
+    return 0;
+}
+   
+void g(int k) 
+{
+    a = k;
+}
+    
+void f(int n)
+{
+    int a = 0;
+    printf(" valor de a antes de entrar en el pragma: %d\n", a);
+
+    //#pragma omp parallel for private(a)
+
+    for(int i = 1; i < n; i++)
+    {
+        a = i;
+        g(a * 2);
+        printf(" valor de a  en el ciclo for: %d\n", a);
+    }
+    printf(" valor de a saliendo del pragma: %d\n", a);
+}
+
+@end verbatim
+
+@b{Obteniendo el siguiente resultado}
+
+valor de a antes de entrar en el pragma: 0
+
+valor de a  en el ciclo for: 1
+
+valor de a  en el ciclo for: 2
+
+valor de a  en el ciclo for: 3
+
+valor de a  en el ciclo for: 4
+
+valor de a  en el ciclo for: 5
+
+valor de a  en el ciclo for: 6
+
+valor de a  en el ciclo for: 7
+
+valor de a  en el ciclo for: 8
+
+valor de a  en el ciclo for: 9
+
+valor de a  en el ciclo for: 10
+
+valor de a  en el ciclo for: 11
+
+valor de a  en el ciclo for: 12
+
+valor de a  en el ciclo for: 13
+
+valor de a  en el ciclo for: 14
+
+valor de a  en el ciclo for: 15
+
+valor de a  en el ciclo for: 16
+
+valor de a  en el ciclo for: 17
+
+valor de a  en el ciclo for: 18
+
+valor de a  en el ciclo for: 19
+
+valor de a  en el ciclo for: 20
+
+valor de a  en el ciclo for: 21
+
+valor de a  en el ciclo for: 22
+
+valor de a  en el ciclo for: 23
+
+valor de a  en el ciclo for: 24
+
+valor de a  en el ciclo for: 25
+
+valor de a  en el ciclo for: 26
+
+valor de a  en el ciclo for: 27
+
+valor de a  en el ciclo for: 28
+
+valor de a  en el ciclo for: 29
+
+valor de a  en el ciclo for: 30
+
+valor de a  en el ciclo for: 31
+
+valor de a  en el ciclo for: 32
+
+valor de a  en el ciclo for: 33
+
+valor de a  en el ciclo for: 34
+
+valor de a  en el ciclo for: 35
+
+valor de a  en el ciclo for: 36
+
+valor de a  en el ciclo for: 37
+
+valor de a  en el ciclo for: 38
+
+valor de a  en el ciclo for: 39
+
+valor de a  en el ciclo for: 40
+
+valor de a  en el ciclo for: 41
+
+valor de a  en el ciclo for: 42
+
+valor de a  en el ciclo for: 43
+
+valor de a  en el ciclo for: 44
+
+valor de a  en el ciclo for: 45
+
+valor de a  en el ciclo for: 46
+
+valor de a  en el ciclo for: 47
+
+valor de a saliendo del pragma: 47
+
+
+@b{Ejecutamos el ejemplo con la sintáxis de OpenMp:} 
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+void g(int k); 
+void f(int n);
+int a;
+
+int main()
+{
+    int k = 3;
+    int n = 48;
+    g(k); 
+    f(n);
+    return 0;
+}
+   
+void g(int k) 
+{
+    a = k;
+}
+    
+void f(int n)
+{
+    int a = 0;
+    printf("Valor de a antes de entrar en el pragma: %d\n", a);
+
+    #pragma omp parallel for private(a)
+
+    for(int i = 1; i < n; i++)
+    {
+        a = i;
+        g(a * 2);
+        printf("Valor de a  en el ciclo for: %d\n", a);
+    }
+    printf("Valor de a saliendo del pragma: %d\n", a);
+}
+
+@end verbatim
+
+@b{Obteniendo el siguiente resultado}
+
+Valor de a antes de entrar en el pragma: 0
+
+Valor de a  en el ciclo for: 36
+
+Valor de a  en el ciclo for: 39
+
+Valor de a  en el ciclo for: 45
+
+Valor de a  en el ciclo for: 44
+
+Valor de a  en el ciclo for: 30
+
+Valor de a  en el ciclo for: 24
+
+Valor de a  en el ciclo for: 2
+
+Valor de a  en el ciclo for: 40
+
+Valor de a  en el ciclo for: 4
+
+Valor de a  en el ciclo for: 26
+
+Valor de a  en el ciclo for: 42
+
+Valor de a  en el ciclo for: 3
+
+Valor de a  en el ciclo for: 6
+
+Valor de a  en el ciclo for: 43
+
+Valor de a  en el ciclo for: 31
+
+Valor de a  en el ciclo for: 8
+
+Valor de a  en el ciclo for: 28
+
+Valor de a  en el ciclo for: 9
+
+Valor de a  en el ciclo for: 34
+
+Valor de a  en el ciclo for: 41
+
+Valor de a  en el ciclo for: 7
+
+Valor de a  en el ciclo for: 33
+
+Valor de a  en el ciclo for: 11
+
+Valor de a  en el ciclo for: 5
+
+Valor de a  en el ciclo for: 21
+
+Valor de a  en el ciclo for: 20
+
+Valor de a  en el ciclo for: 12
+
+Valor de a  en el ciclo for: 15
+
+Valor de a  en el ciclo for: 18
+
+Valor de a  en el ciclo for: 23
+
+Valor de a  en el ciclo for: 47
+
+Valor de a  en el ciclo for: 22
+
+Valor de a  en el ciclo for: 37
+
+Valor de a  en el ciclo for: 35
+
+Valor de a  en el ciclo for: 38
+
+Valor de a  en el ciclo for: 14
+
+Valor de a  en el ciclo for: 19
+
+Valor de a  en el ciclo for: 27
+
+Valor de a  en el ciclo for: 32
+
+Valor de a  en el ciclo for: 25
+
+Valor de a  en el ciclo for: 16
+
+Valor de a  en el ciclo for: 13
+
+Valor de a  en el ciclo for: 29
+
+Valor de a  en el ciclo for: 17
+
+Valor de a  en el ciclo for: 10
+
+Valor de a  en el ciclo for: 1
+
+Valor de a  en el ciclo for: 46
+
+Valor de a saliendo del pragma: 0
+
+

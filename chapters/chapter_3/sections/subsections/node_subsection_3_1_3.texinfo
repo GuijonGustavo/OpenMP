@@ -1,0 +1,494 @@
+@node node_subsection_3_1_3 
+@subsection Ejemplo 35.3
+
+@b{Ejecutamos el ejemplo comentando la sintáxis de OpenMp:} 
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+void priv_example3();
+
+int main()
+{
+
+    priv_example3();
+    return 0;
+
+}
+
+
+void priv_example3()
+{
+
+    int i, a;
+
+    //#pragma omp parallel private(a) num_threads(6)
+    {
+        printf("Checkpoint 1: a = %d. Thread #: %d\n\n", a, omp_get_thread_num());
+    
+        a = 1;
+
+        printf("Checkpoint 2: a = %d. Thread #: %d\n\n", a, omp_get_thread_num());
+        //#pragma omp parallel for private(a)
+	for(i = 0; i < 10; i++)
+	{
+	
+            a = 2;	
+	
+        printf("Checkpoint 3: a = %d. Thread #: %d\n\n", a, omp_get_thread_num());
+	}
+        //assert(a == 1) ;
+        //printf("Checkpoint 4: a = %d. Thread #: %d\n\n", a, omp_get_thread_num());
+    }
+
+}
+
+@end verbatim
+
+@b{Obteniendo los siguientes resultados}:
+
+Checkpoint 1: a = 0. Thread #: 0
+
+Checkpoint 2: a = 1. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 4: a = 2. Thread #: 0
+
+@b{Ejecutamos el ejemplo con el primer pragma activo}: 
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+void priv_example3();
+
+int main()
+{
+
+    priv_example3();
+    return 0;
+
+}
+
+
+void priv_example3()
+{
+
+    int i, a;
+
+    #pragma omp parallel private(a) num_threads(6)
+    {
+        printf("Checkpoint 1: a = %d. Thread #: %d\n\n", a, omp_get_thread_num());
+    
+        a = 1;
+
+        printf("Checkpoint 2: a = %d. Thread #: %d\n\n", a, omp_get_thread_num());
+        //#pragma omp parallel for private(a)
+	for(i = 0; i < 10; i++)
+	{
+	
+            a = 2;	
+	
+        printf("Checkpoint 3: a = %d. Thread #: %d\n\n", a, omp_get_thread_num());
+	}
+        //assert(a == 1) ;
+        printf("Checkpoint 4: a = %d. Thread #: %d\n\n", a, omp_get_thread_num());
+    }
+
+}
+
+@end verbatim
+
+@b{Obteniendo los siguientes resultados}:
+
+Checkpoint 1: a = 0. Thread #: 0
+
+Checkpoint 2: a = 1. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 4: a = 2. Thread #: 0
+
+Checkpoint 1: a = 0. Thread #: 3
+
+Checkpoint 2: a = 1. Thread #: 3
+
+Checkpoint 3: a = 2. Thread #: 3
+
+Checkpoint 3: a = 2. Thread #: 3
+
+Checkpoint 3: a = 2. Thread #: 3
+
+Checkpoint 3: a = 2. Thread #: 3
+
+Checkpoint 3: a = 2. Thread #: 3
+
+Checkpoint 3: a = 2. Thread #: 3
+
+Checkpoint 3: a = 2. Thread #: 3
+
+Checkpoint 3: a = 2. Thread #: 3
+
+Checkpoint 3: a = 2. Thread #: 3
+
+Checkpoint 3: a = 2. Thread #: 3
+
+Checkpoint 1: a = 0. Thread #: 5
+
+Checkpoint 2: a = 1. Thread #: 5
+
+Checkpoint 3: a = 2. Thread #: 5
+
+Checkpoint 3: a = 2. Thread #: 5
+
+Checkpoint 3: a = 2. Thread #: 5
+
+Checkpoint 3: a = 2. Thread #: 5
+
+Checkpoint 3: a = 2. Thread #: 5
+
+Checkpoint 3: a = 2. Thread #: 5
+
+Checkpoint 3: a = 2. Thread #: 5
+
+Checkpoint 3: a = 2. Thread #: 5
+
+Checkpoint 3: a = 2. Thread #: 5
+
+Checkpoint 3: a = 2. Thread #: 5
+
+Checkpoint 1: a = 0. Thread #: 1
+
+Checkpoint 2: a = 1. Thread #: 1
+
+Checkpoint 3: a = 2. Thread #: 1
+
+Checkpoint 3: a = 2. Thread #: 1
+
+Checkpoint 3: a = 2. Thread #: 1
+
+Checkpoint 3: a = 2. Thread #: 1
+
+Checkpoint 3: a = 2. Thread #: 1
+
+Checkpoint 3: a = 2. Thread #: 1
+
+Checkpoint 3: a = 2. Thread #: 1
+
+Checkpoint 3: a = 2. Thread #: 1
+
+Checkpoint 3: a = 2. Thread #: 1
+
+Checkpoint 3: a = 2. Thread #: 1
+
+Checkpoint 1: a = 0. Thread #: 2
+
+Checkpoint 2: a = 1. Thread #: 2
+
+Checkpoint 3: a = 2. Thread #: 2
+
+Checkpoint 3: a = 2. Thread #: 2
+
+Checkpoint 3: a = 2. Thread #: 2
+
+Checkpoint 3: a = 2. Thread #: 2
+
+Checkpoint 3: a = 2. Thread #: 2
+
+Checkpoint 3: a = 2. Thread #: 2
+
+Checkpoint 3: a = 2. Thread #: 2
+
+Checkpoint 3: a = 2. Thread #: 2
+
+Checkpoint 3: a = 2. Thread #: 2
+
+Checkpoint 3: a = 2. Thread #: 2
+
+Checkpoint 4: a = 2. Thread #: 2
+
+Checkpoint 1: a = 0. Thread #: 4
+
+Checkpoint 4: a = 2. Thread #: 3
+
+Checkpoint 2: a = 1. Thread #: 4
+
+Checkpoint 3: a = 2. Thread #: 4
+
+Checkpoint 3: a = 2. Thread #: 4
+
+Checkpoint 3: a = 2. Thread #: 4
+
+Checkpoint 3: a = 2. Thread #: 4
+
+Checkpoint 3: a = 2. Thread #: 4
+
+Checkpoint 3: a = 2. Thread #: 4
+
+Checkpoint 3: a = 2. Thread #: 4
+
+Checkpoint 4: a = 2. Thread #: 5
+
+Checkpoint 4: a = 2. Thread #: 1
+
+Checkpoint 3: a = 2. Thread #: 4
+
+Checkpoint 3: a = 2. Thread #: 4
+
+Checkpoint 3: a = 2. Thread #: 4
+
+Checkpoint 4: a = 2. Thread #: 4
+
+@b{Ejecutamos el ejemplo con ambos pragmas activos}: 
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+void priv_example3();
+
+int main()
+{
+
+    priv_example3();
+    return 0;
+
+}
+
+
+void priv_example3()
+{
+
+    int i, a;
+
+    #pragma omp parallel private(a) num_threads(6)
+    {
+        printf("Checkpoint 1: a = %d. Thread #: %d\n\n", a, omp_get_thread_num());
+    
+        a = 1;
+
+        printf("Checkpoint 2: a = %d. Thread #: %d\n\n", a, omp_get_thread_num());
+        #pragma omp parallel for private(a)
+	for(i = 0; i < 10; i++)
+	{
+	
+            a = 2;	
+	
+        printf("Checkpoint 3: a = %d. Thread #: %d\n\n", a, omp_get_thread_num());
+	}
+        //assert(a == 1) ;
+        printf("Checkpoint 4: a = %d. Thread #: %d\n\n", a, omp_get_thread_num());
+    }
+
+}
+
+@end verbatim
+
+@b{Obteniendo los siguientes resultados}:
+
+Checkpoint 1: a = 0. Thread #: 0
+
+Checkpoint 2: a = 1. Thread #: 0
+
+Checkpoint 1: a = 0. Thread #: 1
+
+Checkpoint 2: a = 1. Thread #: 1
+
+Checkpoint 1: a = 0. Thread #: 2
+
+Checkpoint 2: a = 1. Thread #: 2
+
+Checkpoint 1: a = 0. Thread #: 3
+
+Checkpoint 2: a = 1. Thread #: 3
+
+Checkpoint 1: a = 0. Thread #: 4
+
+Checkpoint 2: a = 1. Thread #: 4
+
+Checkpoint 1: a = 0. Thread #: 5
+
+Checkpoint 2: a = 1. Thread #: 5
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 4: a = 1. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 4: a = 1. Thread #: 1
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 4: a = 1. Thread #: 3
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 4: a = 1. Thread #: 5
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 4: a = 1. Thread #: 2
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 3: a = 2. Thread #: 0
+
+Checkpoint 4: a = 1. Thread #: 4
+

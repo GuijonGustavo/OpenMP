@@ -1,0 +1,320 @@
+@node node_subsection_3_3_1
+@subsection Ejemplo 38.1
+
+@b{Sin la sintaxis de OpenMP}
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+#define TAMANO 50
+
+void lastpriv(int n, float *a, float *b);
+
+int main()
+{
+    int n = 11;
+    float a[TAMANO];
+    float b[TAMANO];
+
+    lastpriv(n, a, b);
+    return 0;
+}
+
+
+void lastpriv(int n, float *a, float *b)
+{
+    int i;
+    
+    #pragma omp parallel num_threads(9)
+    {
+        #pragma omp for lastprivate(i)
+        for(i = 0; i <n-1; i++)
+	{
+            a[i] = b[i] + b[i+1];
+            printf("Checkpoint 1: a[%d] = %f. Thread # %d\n\n", i, a[i], omp_get_thread_num());
+	}
+    }
+    
+     printf("Checkpoint 2: a[%d] = %f. Thread # %d\n\n", i, a[i], omp_get_thread_num());
+     a[i] = b[i];
+     printf("Checkpoint 3: a[%d] = %f. Thread # %d\n\n", i, a[i], omp_get_thread_num());
+}
+
+
+@end verbatim
+
+@b{Resultados}
+
+
+Checkpoint 1: a[0] = 0.000000. Thread # 0
+
+Checkpoint 1: a[1] = 0.000000. Thread # 0
+
+Checkpoint 1: a[2] = 0.000000. Thread # 0
+
+Checkpoint 1: a[3] = 0.000000. Thread # 0
+
+Checkpoint 1: a[4] = 0.000000. Thread # 0
+
+Checkpoint 1: a[5] = 0.000000. Thread # 0
+
+Checkpoint 1: a[6] = 0.000000. Thread # 0
+
+Checkpoint 1: a[7] = 0.000000. Thread # 0
+
+Checkpoint 1: a[8] = 0.000000. Thread # 0
+
+Checkpoint 1: a[9] = 0.000000. Thread # 0
+
+Checkpoint 2: a[10] = 0.000000. Thread # 0
+
+Checkpoint 3: a[10] = 0.000000. Thread # 0
+
+@b{Paralelizando usando parallel omp omp_threads()}
+
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+#define TAMANO 50
+
+void lastpriv(int n, float *a, float *b);
+
+int main()
+{
+    int n = 11;
+    float a[TAMANO];
+    float b[TAMANO];
+
+    lastpriv(n, a, b);
+    return 0;
+}
+
+
+void lastpriv(int n, float *a, float *b)
+{
+    int i;
+    
+    #pragma omp parallel num_threads(9)
+    {
+        //#pragma omp for lastprivate(i)
+        for(i = 0; i <n-1; i++)
+	{
+            a[i] = b[i] + b[i+1];
+            printf("Checkpoint 1: a[%d] = %f. Thread # %d\n\n", i, a[i], omp_get_thread_num());
+	}
+    }
+    
+     printf("Checkpoint 2: a[%d] = %f. Thread # %d\n\n", i, a[i], omp_get_thread_num());
+     a[i] = b[i];
+     printf("Checkpoint 3: a[%d] = %f. Thread # %d\n\n", i, a[i], omp_get_thread_num());
+}
+
+
+@end verbatim
+
+@b{Resultados}
+
+Checkpoint 1: a[0] = 0.000000. Thread # 4
+
+Checkpoint 1: a[1] = 0.000000. Thread # 4
+
+Checkpoint 1: a[2] = 0.000000. Thread # 4
+
+Checkpoint 1: a[3] = 0.000000. Thread # 4
+
+Checkpoint 1: a[4] = 0.000000. Thread # 4
+
+Checkpoint 1: a[5] = 0.000000. Thread # 4
+
+Checkpoint 1: a[0] = 0.000000. Thread # 8
+
+Checkpoint 1: a[0] = 0.000000. Thread # 7
+
+Checkpoint 1: a[7] = 0.000000. Thread # 8
+
+Checkpoint 1: a[8] = 0.000000. Thread # 8
+
+Checkpoint 1: a[9] = 0.000000. Thread # 8
+
+Checkpoint 1: a[0] = 0.000000. Thread # 2
+
+Checkpoint 1: a[0] = 0.000000. Thread # 3
+
+Checkpoint 1: a[0] = 0.000000. Thread # 6
+
+Checkpoint 1: a[0] = 0.000000. Thread # 5
+
+Checkpoint 1: a[0] = 0.000000. Thread # 1
+
+Checkpoint 1: a[0] = 0.000000. Thread # 0
+
+Checkpoint 1: a[6] = 0.000000. Thread # 4
+
+Checkpoint 2: a[18] = 0.000000. Thread # 0
+
+Checkpoint 3: a[18] = 0.000000. Thread # 0
+
+
+@b{Paralelizando hasta omp for}
+
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+#define TAMANO 50
+
+void lastpriv(int n, float *a, float *b);
+
+int main()
+{
+    int n = 11;
+    float a[TAMANO];
+    float b[TAMANO];
+
+    lastpriv(n, a, b);
+    return 0;
+}
+
+
+void lastpriv(int n, float *a, float *b)
+{
+    int i;
+    
+    #pragma omp parallel num_threads(9)
+    {
+        //#pragma omp for lastprivate(i)
+        for(i = 0; i <n-1; i++)
+	{
+            a[i] = b[i] + b[i+1];
+            printf("Checkpoint 1: a[%d] = %f. Thread # %d\n\n", i, a[i], omp_get_thread_num());
+	}
+    }
+    
+     printf("Checkpoint 2: a[%d] = %f. Thread # %d\n\n", i, a[i], omp_get_thread_num());
+     a[i] = b[i];
+     printf("Checkpoint 3: a[%d] = %f. Thread # %d\n\n", i, a[i], omp_get_thread_num());
+}
+
+
+@end verbatim
+
+@b{Resultados}
+
+Checkpoint 1: a[2] = 0.000000. Thread # 1
+
+Checkpoint 1: a[0] = 0.000000. Thread # 0
+
+Checkpoint 1: a[1] = 0.000000. Thread # 0
+
+Checkpoint 1: a[8] = 0.000000. Thread # 7
+
+Checkpoint 1: a[6] = 0.000000. Thread # 5
+
+Checkpoint 1: a[5] = 0.000000. Thread # 4
+
+Checkpoint 1: a[7] = 0.000000. Thread # 6
+
+Checkpoint 1: a[9] = 0.000000. Thread # 8
+
+Checkpoint 1: a[4] = 0.000000. Thread # 3
+
+Checkpoint 1: a[3] = 0.000000. Thread # 2
+
+Checkpoint 2: a[0] = 0.000000. Thread # 0
+
+Checkpoint 3: a[0] = 0.000000. Thread # 0
+
+@b{Paralelizando todo}
+
+
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+#define TAMANO 50
+
+void lastpriv(int n, float *a, float *b);
+
+int main()
+{
+    int n = 11;
+    float a[TAMANO];
+    float b[TAMANO];
+
+    lastpriv(n, a, b);
+    return 0;
+}
+
+
+void lastpriv(int n, float *a, float *b)
+{
+    int i;
+    
+    #pragma omp parallel num_threads(9)
+    {
+        //#pragma omp for lastprivate(i)
+        for(i = 0; i <n-1; i++)
+	{
+            a[i] = b[i] + b[i+1];
+            printf("Checkpoint 1: a[%d] = %f. Thread # %d\n\n", i, a[i], omp_get_thread_num());
+	}
+    }
+    
+     printf("Checkpoint 2: a[%d] = %f. Thread # %d\n\n", i, a[i], omp_get_thread_num());
+     a[i] = b[i];
+     printf("Checkpoint 3: a[%d] = %f. Thread # %d\n\n", i, a[i], omp_get_thread_num());
+}
+
+
+@end verbatim
+@b{Resultados}
+
+
+
+Checkpoint 1: a[0] = 0.000000. Thread # 0
+
+Checkpoint 1: a[1] = 0.000000. Thread # 0
+
+Checkpoint 1: a[6] = 0.000000. Thread # 5
+
+Checkpoint 1: a[4] = 0.000000. Thread # 3
+
+Checkpoint 1: a[2] = 0.000000. Thread # 1
+
+Checkpoint 1: a[7] = 0.000000. Thread # 6
+
+Checkpoint 1: a[9] = 0.000000. Thread # 8
+
+Checkpoint 1: a[8] = 0.000000. Thread # 7
+
+Checkpoint 1: a[3] = 0.000000. Thread # 2
+
+Checkpoint 1: a[5] = 0.000000. Thread # 4
+
+Checkpoint 2: a[10] = 0.000000. Thread # 0
+
+Checkpoint 3: a[10] = 0.000000. Thread # 0
+
+
+

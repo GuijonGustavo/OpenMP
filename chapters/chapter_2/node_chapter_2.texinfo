@@ -1,0 +1,63 @@
+@c ======================= Capitulo 2
+@node node_chapter_2   
+@chapter Directivas           
+                                                
+@menu                                           
+@c * node_section_2_1::Directiva parallel                          
+@c * node_section_2_2::Directiva For                          
+@c * node_section_2_3::Directiva Sections                          
+* node_section_2_4::Directiva Flush                          
+@end menu                                       
+                                                
+@c @node node_section_2_1
+@c @section Parallel
+@c 
+@c @menu
+@c * node_subsection_2_1_1::
+@c @end menu
+@c 
+@c @node node_subsection_2_1_1 
+@c @subsection Ejemplos
+@c 
+@c @verbatim
+@c 
+@c texi2html docs.texinfo
+@c 
+@c @end verbatim 
+@c 
+@c                                                 
+@c @node node_section_2_2
+@c @section For
+@c 
+@c @menu
+@c * node_subsection_2_2_1::
+@c @end menu
+@c 
+@c @node node_subsection_2_2_1 
+@c @subsection Ejemplos
+@c 
+@c @verbatim
+@c 
+@c texi2html docs.texinfo
+@c 
+@c @end verbatim 
+@c 
+@c 
+@c                                                 
+@c @node node_section_2_3
+@c @section Sections
+@c 
+@c @menu
+@c * node_subsection_2_3_1:: Ejemplos
+@c @end menu
+@c 
+@c @node node_subsection_2_3_1 
+@c @subsection Ejemplos
+@c 
+@c @verbatim
+@c 
+@c texi2html docs.texinfo
+@c 
+@c @end verbatim 
+@c 
+@include @file{chapters/chapter_2/sections/node_section_2_4.texinfo} 

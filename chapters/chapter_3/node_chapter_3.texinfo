@@ -1,0 +1,12 @@
+@node node_chapter_3   
+@chapter Clausulas           
+                                                
+@menu                                           
+* node_section_3_1::Clausula Private                           
+* node_section_3_2::Clausula Firstprivate                           
+* node_section_3_3::Clausula Lastpirstprivate                           
+@end menu                                       
+
+@include @file{chapters/chapter_3/sections/node_section_3_1.texinfo} 
+@include @file{chapters/chapter_3/sections/node_section_3_2.texinfo} 
+@include @file{chapters/chapter_3/sections/node_section_3_3.texinfo} 

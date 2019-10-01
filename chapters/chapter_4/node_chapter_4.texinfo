@@ -1,0 +1,26 @@
+@c ======================= Capitulo 4
+@node node_chapter_4   
+@chapter Funciones           
+                                                
+@menu                                           
+* node_section_4_1::                           
+@end menu                                       
+                                                
+@node node_section_4_1
+@section Comandos básicos
+
+@menu
+* node_subsection_4_1_1::
+@end menu
+
+@node node_subsection_4_1_1 
+@subsection Compilar para html
+
+@verbatim
+
+texi2html docs.texinfo
+
+@end verbatim 
+
+
+

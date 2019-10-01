@@ -1,0 +1,20 @@
+@node node_section_3_1
+@section Private
+
+Como puede verse en los siguientes ejemplos, la clausula @b{private} no inicializa la lista de variables dentro del bloque a paralelizar, mientras que la clausula @b{firstprivate} retoma el valor que tiene cada una de las variables antes del bloque.
+
+De modo que:
+
+@b{private(valor-i_1, ..., valor-i_N)}: Los datos de la región paralela nombrados por private son copiados al área de almacenamiento local del hilo (principalmente su pila), lo que significa que cada hilo los usará como variable temporal. Una variable privada no es inicializada y tampoco se mantiene fuera de la región paralela. Por definición, el contador de iteraciones en OpenMP es privado.
+
+@b{firstprivate(valor-i_1, ..., valor-i_N)}: Cada hilo tiene una copia local del dato. La copia local se inicializa con el valor de la copia global en el momento de encontrarse con la directiva a la que se aplica la cláusula.
+
+@menu
+* node_subsection_3_1_1::
+* node_subsection_3_1_2::
+* node_subsection_3_1_3::
+@end menu
+
+@include @file{chapters/chapter_3/sections/subsections/node_subsection_3_1_1.texinfo} 
+@include @file{chapters/chapter_3/sections/subsections/node_subsection_3_1_2.texinfo} 
+@include @file{chapters/chapter_3/sections/subsections/node_subsection_3_1_3.texinfo} 

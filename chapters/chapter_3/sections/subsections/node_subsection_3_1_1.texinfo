@@ -1,0 +1,386 @@
+@node node_subsection_3_1_1 
+@subsection Ejemplo 35.1
+
+@b{Como en los ejemplos anteriores ejecutamos este ejemplo sin la sintaxis de OpenMP}:
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+int main()
+{
+    int i, j;
+    int *ptr_i, *ptr_j;
+    
+    i = 1;
+    j = 2;
+    
+    ptr_i = &i;
+    ptr_j = &j;
+    
+    printf("Checkpoint 1: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+
+    i = 3;
+    j = j + 2;
+    printf("Checkpoint 2: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+
+    return 0;
+}
+@end verbatim 
+
+@b{Resultado}:
+
+Checkpoint 1: i=1 y j=2. Thread #: 0
+
+Checkpoint 2: i=3 y j=4. Thread #: 0
+
+@b{Análisis y conclusión}
+
+Este resultado no nos sorprende, pues simplemente se imprimen los valores de las variables de manera secuencial. En adelante el análisis es más interesante.
+
+@b{Ahora incluimos en nuestro ejemplo la directiva @i{parallel omp} y configuramos para 8 threads}:
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+int main()
+{
+    int i, j;
+    int *ptr_i, *ptr_j;
+    
+    i = 1;
+    j = 2;
+    
+    ptr_i = &i;
+    ptr_j = &j;
+    
+    printf("Checkpoint 1: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+
+    #pragma omp parallel num_threads(8) 
+
+    {
+        printf("Checkpoint 2: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+        i = 3;
+        j = j + 2;
+        printf("Checkpoint 3: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+    }
+
+    printf("Checkpoint 4: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+    return 0;
+}
+@end verbatim 
+
+@b{Resultado}:
+
+Checkpoint 1: i=1 y j=2. Thread #: 0
+
+Checkpoint 2: i=1 y j=2. Thread #: 0
+
+Checkpoint 2: i=1 y j=2. Thread #: 2
+
+Checkpoint 2: i=1 y j=2. Thread #: 6
+
+Checkpoint 2: i=1 y j=2. Thread #: 5
+
+Checkpoint 2: i=1 y j=2. Thread #: 7
+
+Checkpoint 3: i=3 y j=4. Thread #: 7
+
+Checkpoint 3: i=3 y j=8. Thread #: 0
+
+Checkpoint 3: i=3 y j=6. Thread #: 5
+
+Checkpoint 2: i=1 y j=2. Thread #: 4
+
+Checkpoint 3: i=3 y j=12. Thread #: 6
+
+Checkpoint 2: i=1 y j=2. Thread #: 1
+
+Checkpoint 3: i=3 y j=14. Thread #: 1
+
+Checkpoint 2: i=1 y j=2. Thread #: 3
+
+Checkpoint 3: i=3 y j=16. Thread #: 4
+
+Checkpoint 3: i=3 y j=18. Thread #: 3
+
+Checkpoint 3: i=3 y j=10. Thread #: 2
+
+Checkpoint 4: i=3 y j=18. Thread #: 0
+
+@b{Análisis y conclusión}
+
+El @b{checkpoint 1} como se encuentra antes de entrar al bloque a paralelizar, utiliza el thread #0; y adquiere los valores de las variables @b{i} y @b{j} que se declararon justo unas lineas antes.
+
+En el @b{checkpoint 2} se utilizan del thread #0 al #8, y de nueva cuenta adquiere los valores de las variables @b{i} y @b{j} que se declararon antes del bloque.
+
+Luego del @b{checkpoint 2} se redefinen las variables @b{i} y @b{j} a con @b{i = 3} y @b{j = j +2} por lo que cada thread retoma el valor de la redefinición de @b{i} y @b{j} dando como resultado que en todo el @b{checkpoint 3} la variable @b{i} se mantenga constate, pero el valor de @b{j} se incrementa en 2 por cada thread, por lo que el valor final de @b{j = 18}.
+
+Es notorio que tanto el @b{checkpoint 1} como el @b{checkpoint 2} están dentro del bloque, por lo que el orden de los threads es de manera desordenada.
+
+Finalmente en el @b{checkpoint 4}, al estar fuera del bloque, se retoma el thread #0. Pero con el valor último de la variable @b{j = 18}.
+
+Obviamente esta es un pésimo uso de las directivas de OpenMp. Y es un claro ejemplo de que para paralelizar un script es necesario tener bien presentes los conceptos de OpenMP.
+
+@b{En el siguiente caso, siguiendo con el mismo ejemplo, vamos a agregar la clausula @i{private} para la variable: i}:
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+int main()
+{
+    int i, j;
+    int *ptr_i, *ptr_j;
+    
+    i = 1;
+    j = 2;
+    
+    ptr_i = &i;
+    ptr_j = &j;
+    
+    printf("Checkpoint 1: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+
+    #pragma omp parallel num_threads(8) private(i) 
+
+    {
+        printf("Checkpoint 2: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+        i = 3;
+        j = j + 2;
+        printf("Checkpoint 3: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+    }
+
+    printf("Checkpoint 4: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+    return 0;
+}
+@end verbatim 
+
+@b{Lo cual nos arrojó los siguientes resultados}:
+
+Checkpoint 1: i=1 y j=2. Thread #: 0
+
+Checkpoint 2: i=0 y j=2. Thread #: 0
+
+Checkpoint 2: i=0 y j=2. Thread #: 6
+
+Checkpoint 2: i=0 y j=2. Thread #: 3
+
+Checkpoint 2: i=0 y j=2. Thread #: 1
+
+Checkpoint 3: i=3 y j=4. Thread #: 0
+
+Checkpoint 3: i=3 y j=6. Thread #: 6
+
+Checkpoint 2: i=0 y j=2. Thread #: 5
+
+Checkpoint 3: i=3 y j=8. Thread #: 3
+
+Checkpoint 3: i=3 y j=12. Thread #: 5
+
+Checkpoint 2: i=0 y j=2. Thread #: 7
+
+Checkpoint 3: i=3 y j=14. Thread #: 7
+
+Checkpoint 2: i=0 y j=2. Thread #: 2
+
+Checkpoint 3: i=3 y j=10. Thread #: 1
+
+Checkpoint 3: i=3 y j=16. Thread #: 2
+
+Checkpoint 2: i=0 y j=2. Thread #: 4
+
+Checkpoint 3: i=3 y j=18. Thread #: 4
+
+Checkpoint 4: i=1 y j=18. Thread #: 0
+
+@b{Análisis y conclusión}
+
+De igual manera que en el caso anterior, el @b{checkpoint 1} el thread es el #0, y las variables @b{i} y @b{j} tienen los valores iniciales: @b{i = 1} y @b{j = 2}.
+
+Una vez dentro del bloque, el @b{checkpoint 2}, haciendo caso de la cláusula @b{privada} la variable @b{i} se reinicia en este punto con valor @b{i = 0}, mentras que la variable @b{j} al no ser privada adquiere el valor	que se declaró fuera del bloque. Todo el proceso ocurre usando los threads #0 al #7.
+
+Luego del @b{checkpoint 2} la variable @b{i} es redefinida como @b{i = 3} por lo que a partir de este punto se mantiene constante este valor. No así como la variable @b{j} que al no ser declarada como @i{private} toma el valor de @b{j = j + 2} de modo que por cada thread (ocho en total) se incrementará el valor en 2. Así, el valor final de la variable @b{j} será @b{j = 18}. (Sin lugar a dudas esta es también es una mala paralelización).
+
+En el @b{checkpoint 4} se vuelve a trabajar con el thread #0, e @b{i} vuelve a tener el valor que tenía antes del bloque.
+
+Concluimos que esta paralelización no aporta los resultados correctos. Por lo menos para la variable @b{j}, pues el valor de la variable @b{i} sí es el correcto.
+
+@b{en el siguiente caso en vez de usar la cláusula @i{private} usaremos la clausula @b{firstprivate} para la variable @b{j}}:
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+int main()
+{
+    int i, j;
+    int *ptr_i, *ptr_j;
+    
+    i = 1;
+    j = 2;
+    
+    ptr_i = &i;
+    ptr_j = &j;
+    
+    printf("Checkpoint 1: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+
+    #pragma omp parallel num_threads(8) firstprivate(j) 
+
+    {
+        printf("Checkpoint 2: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+        i = 3;
+        j = j + 2;
+        printf("Checkpoint 3: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+    }
+
+    printf("Checkpoint 4: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+    return 0;
+}
+@end verbatim 
+
+@b{Resultado}:
+
+Checkpoint 1: i=1 y j=2. Thread #: 0
+
+Checkpoint 2: i=1 y j=2. Thread #: 0
+
+Checkpoint 2: i=1 y j=2. Thread #: 3
+
+Checkpoint 2: i=1 y j=2. Thread #: 1
+
+Checkpoint 2: i=1 y j=2. Thread #: 6
+
+Checkpoint 2: i=1 y j=2. Thread #: 2
+
+Checkpoint 3: i=3 y j=4. Thread #: 6
+
+Checkpoint 3: i=3 y j=4. Thread #: 0
+
+Checkpoint 3: i=3 y j=4. Thread #: 2
+
+Checkpoint 2: i=1 y j=2. Thread #: 4
+
+Checkpoint 3: i=3 y j=4. Thread #: 1
+
+Checkpoint 2: i=1 y j=2. Thread #: 5
+
+Checkpoint 2: i=1 y j=2. Thread #: 7
+
+Checkpoint 3: i=3 y j=4. Thread #: 5
+
+Checkpoint 3: i=3 y j=4. Thread #: 7
+
+Checkpoint 3: i=3 y j=4. Thread #: 4
+
+Checkpoint 3: i=3 y j=4. Thread #: 3
+
+Checkpoint 4: i=3 y j=2. Thread #: 0
+
+@b{Análisis y conclusión}
+
+El @b{checkpoint 1} se comporta tal y como lo deseamos. Y es correcto lo que debe de imprimir en pantalla.
+
+Para el @b{checkpoint 2} la variable @b{i} retoma el valor que tiene antes del bloque de paralelización: @b{i = 1}.
+
+Después del @b{checkpoint 2} se redefinen las variables. La variable @b{i} ahora tiene el valor @b{i = 3} y @b{j} es @b{j = j + 2}. Por lo que el @b{checkpoint 3} @b{i} mantiene el valor que se redefinió: @b{i = 3}. Pero la variable @b{j} al ser @i{firstprivate} en todos los threads vale: @b{j = 4} (j = j + 2 = (2) + 2 = 4) sin incrementarse paulativamente por cada thread.
+
+Finalmente el @b{checkpoint 4} adquiere el valor de la variable @b{i = 3} pero el de @b{j = 2} es decir, al valor que se tenía antes de paralelizar!! Esto es debido al uso de la cláusula @i{firstprivate}. Para que el valor que se tiene al final salga del bloque se tendría que usar  la cláusula @i{lastprivate}.
+
+Concluimos diciendo que esta tampoco en la mejor paralelización, debido a que no se retiene el valor de @b{j} al final del script.
+
+@b{Ahora ejecutamos el script usando las cláusulas apropiadas}:
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+int main()
+{
+    int i, j;
+    int *ptr_i, *ptr_j;
+    
+    i = 1;
+    j = 2;
+    
+    ptr_i = &i;
+    ptr_j = &j;
+    
+    printf("Checkpoint 1: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+
+    #pragma omp parallel num_threads(8) private(i) firstprivate(j) 
+
+    {
+        printf("Checkpoint 2: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+        i = 3;
+        j = j + 2;
+        printf("Checkpoint 3: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+    }
+
+    printf("Checkpoint 4: i=%d y j=%d. Thread #: %d\n\n", i, j, omp_get_thread_num());
+    return 0;
+}
+@end verbatim 
+
+@b{Resultado}:
+
+
+Checkpoint 1: i=1 y j=2. Thread #: 0
+
+Checkpoint 2: i=0 y j=2. Thread #: 0
+
+Checkpoint 2: i=0 y j=2. Thread #: 7
+
+Checkpoint 2: i=0 y j=2. Thread #: 1
+
+Checkpoint 2: i=0 y j=2. Thread #: 2
+
+Checkpoint 2: i=0 y j=2. Thread #: 3
+
+Checkpoint 3: i=3 y j=4. Thread #: 2
+
+Checkpoint 3: i=3 y j=4. Thread #: 3
+
+Checkpoint 3: i=3 y j=4. Thread #: 0
+
+Checkpoint 3: i=3 y j=4. Thread #: 1
+
+Checkpoint 2: i=0 y j=2. Thread #: 6
+
+Checkpoint 3: i=3 y j=4. Thread #: 6
+
+Checkpoint 2: i=0 y j=2. Thread #: 5
+
+Checkpoint 3: i=3 y j=4. Thread #: 5
+
+Checkpoint 2: i=0 y j=2. Thread #: 4
+
+Checkpoint 3: i=3 y j=4. Thread #: 4
+
+Checkpoint 3: i=3 y j=4. Thread #: 7
+
+Checkpoint 4: i=1 y j=2. Thread #: 0
+
+@b{Análisis y conclusión}
+
+Después de las dicusiones anteriores debe quedar claro el uso de la directiva y las cláusulas en este ejemplo. Más sin embargo hay que decir que esta tampoco es la mejor paralelización, pues el valor de la variable @b{j} al salir de la paralelización no conserva el valor correcto, sino	que se reinicia al valor que tenía antes de la paralelización. Para resolver este problema es necesario revisar una cláusula más: @i{lastprivate}.

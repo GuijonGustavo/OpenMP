@@ -1,0 +1,58 @@
+\input texinfo
+@c -*-texinfo-*-
+@c %**start of header
+@c $Id: latex2e-es.texi 279 2014-02-27 21:21:05Z vincentb1 $
+@comment %**start of header (Esto es para ejecutar Texinfo en una regiÃ³n.)
+
+@c http://www.gacetadelinux.com/es/lg/issue76/spiel.html
+@c http://www.lilypond.org/doc/v2.18/Documentation/usage/texinfo.es.html
+@setfilename docs.info
+@documentlanguage es
+@documentencoding UTF-8
+
+@settitle docs
+@c %**end of header
+@copying
+This manual is for program, version version. Copyright @copyright{} years copyright-owner.
+@c quotation
+Permission is granted to creative commons, by Gustavo Magallanes-Guijón
+@c end quotation
+@end copying
+@titlepage
+@title Mis documentación
+@subtitle Documentación
+@author Gustavo Magallanes-Guijón
+
+@c The following two commands
+@c start the copyright page.
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+Publicado por Gustavo Magallanes-Guijón
+@end titlepage
+@c So the toc is printed in the right place.
+@contents
+
+@ifnottex
+@node Top
+@top Tutorial de OpenMP 
+Gustavo Magallanes-Guijón
+@insertcopying
+@end ifnottex
+
+@c ===========Inicio_Menu_Principal===================
+@menu
+* node_chapter_1::Introducción
+* node_chapter_2::Uso y ejemplos de las directivas de OpenMP
+* node_chapter_3::Ejemplos y explicación de las clausulas
+@c * node_chapter_4::Revisón de las funciones de biblioteca de OpenMP
+@end menu
+                                                
+@c ===========Fin_Menu_Principal===================
+
+@include @file{chapters/chapter_1/node_chapter_1.texinfo} 
+@include @file{chapters/chapter_2/node_chapter_2.texinfo} 
+@include @file{chapters/chapter_3/node_chapter_3.texinfo} 
+@c include @file{chapters/chapter_4/node_chapter_4.texinfo} 
+
+@bye
