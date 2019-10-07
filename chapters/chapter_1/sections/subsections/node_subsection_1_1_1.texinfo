@@ -1,5 +1,5 @@
 @node node_subsection_1_1_1
-@subsection Información General del servidor
+@subsection Información
 
 Se cuenta con una computadora con 48 núcleos y básicamente con las mismas características cada uno de ellos.
 

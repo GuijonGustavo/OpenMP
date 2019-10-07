@@ -1,27 +1,10 @@
-@c ======================= Capitulo 1
 @node node_chapter_1   
 @chapter Introducción           
                                                 
 @menu                                           
 * node_section_1_1::
-* node_section_1_2::¿Qué es OpenMP?                           
+* node_section_1_2::
 @end menu                                       
                                                 
-@node node_section_1_1
-@section Servidor Sor Juana
-
-@menu
-* node_subsection_1_1_1::
-@end menu
-
-@include @file{chapters/chapter_1/sections/subsections/node_subsection_1_1_1.texinfo} 
-                                                
-@node node_section_1_2
-@section ¿Qué es OpenMP?
-
-@menu
-* node_subsection_1_2_1::
-@end menu
-
-@include @file{chapters/chapter_1/sections/subsections/node_subsection_1_2_1.texinfo} 
-
+@include @file{chapters/chapter_1/sections/node_section_1_1.texinfo} 
+@include @file{chapters/chapter_1/sections/node_section_1_2.texinfo} 

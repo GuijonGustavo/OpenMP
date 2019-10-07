@@ -1,0 +1,665 @@
+@node node_subsection_3_4_1
+@subsection Ejemplo 39.1
+
+@b{Primero ejecutamos el ejemplo propuesto en la documentación, pero sin paralelizar. Paulatinamente iremos incluyendo la sintaxis de OpenMP}:
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+#define TAMANO 10
+
+void reduction1(float *x, int *y, int n);
+
+int main()
+{
+    int n = 10;
+    float x[TAMANO];
+    int y[TAMANO];
+
+    reduction1(x, y, n);
+    return 0;
+}
+
+void reduction1(float *x, int *y, int n)
+{
+    int i, b, c;
+    float a, d;
+    
+    a = 0.0;
+    b = 0;
+    c = y[0];
+    d = x[0];
+    
+    for (i = 0; i < n; i++)
+    {
+        a += x[i];
+        b ^= y[i];
+        
+        if (c > y[i]) c = y[i];
+	
+        d = fmaxf(d, x[i]);
+	
+        printf("Checkpoint 1: a = x[%d] = %.3f, b = y[%d] = %d, c = y[%d] = %d, d = %.3f Thread # %d\n\n", i, a, i, b, i, c, d, omp_get_thread_num());
+    }
+    printf("Checkpoint 2: a = x[%d] = %.3f, b = y[%d] = %d, c = y[%d] = %d, d = %.3f Thread # %d\n\n", i, a, i, b, i, c, d, omp_get_thread_num());
+    
+}
+
+@end verbatim
+
+@b{Resultados}
+
+Checkpoint 1: a = x[0] = 0.000, b = y[0] = 0, c = y[0] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[1] = 0.000, b = y[1] = 0, c = y[1] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[2] = 0.000, b = y[2] = 0, c = y[2] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[3] = 0.000, b = y[3] = 0, c = y[3] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[4] = 0.000, b = y[4] = 841155440, c = y[4] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[5] = 0.000, b = y[5] = 841176807, c = y[5] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[6] = 0.000, b = y[6] = 22071, c = y[6] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[7] = 0.000, b = y[7] = 928, c = y[7] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[8] = 0.000, b = y[8] = 321541808, c = y[8] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[9] = 0.000, b = y[9] = 321530190, c = y[9] = 0, d = 0.000 Thread # 0
+
+Checkpoint 2: a = x[10] = 0.000, b = y[10] = 321530190, c = y[10] = 0, d = 0.000 Thread # 0
+
+@b{Análisis y conclusión}
+
+En primer lugar vemos que el thread que está presente en todo todos los checkpoints, como es de esperarse, es el thread #0. Además, que de manera secuencial el índice @b{i} en el @b{checkpoint 1} recorre de 0 a 9. Así en el @b{checkpoint 2} el valor de @b{i} es 10. 
+
+@b{Ahora vamos a incluir la sintaxis la directiva: #pragma omp  con el constructor @i{parallel} y configurado para 10 threads (num_threads(10))}
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+#define TAMANO 10
+
+void reduction1(float *x, int *y, int n);
+
+int main()
+{
+    int n = 10;
+    float x[TAMANO];
+    int y[TAMANO];
+
+    reduction1(x, y, n);
+    return 0;
+}
+
+void reduction1(float *x, int *y, int n)
+{
+    int i, b, c;
+    float a, d;
+    
+    a = 0.0;
+    b = 0;
+    c = y[0];
+    d = x[0];
+    
+    #pragma omp parallel num_threads(10) 
+    for (i = 0; i < n; i++)
+    {
+        a += x[i];
+        b ^= y[i];
+        
+        if (c > y[i]) c = y[i];
+	
+        d = fmaxf(d, x[i]);
+	
+        printf("Checkpoint 1: a = x[%d] = %.3f, b = y[%d] = %d, c = y[%d] = %d, d = %.3f Thread # %d\n\n", i, a, i, b, i, c, d, omp_get_thread_num());
+    }
+    printf("Checkpoint 2: a = x[%d] = %.3f, b = y[%d] = %d, c = y[%d] = %d, d = %.3f Thread # %d\n\n", i, a, i, b, i, c, d, omp_get_thread_num());
+    
+}
+
+@end verbatim
+
+@b{Resultados}
+
+Checkpoint 1: a = x[0] = 0.000, b = y[0] = 0, c = y[0] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[1] = 0.000, b = y[1] = 0, c = y[1] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[2] = -1060001845662973952.000, b = y[2] = 0, c = y[2] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[3] = -1060001845662973952.000, b = y[3] = 0, c = y[3] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[4] = -1060001845662973952.000, b = y[4] = 1002984448, c = y[4] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[5] = -1060001845662973952.000, b = y[5] = 1002963345, c = y[5] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[6] = -1060001845662973952.000, b = y[6] = 20849, c = y[6] = 0, d = 0.006 Thread # 0
+
+Checkpoint 1: a = x[7] = -1060001845662973952.000, b = y[7] = 1248, c = y[7] = 0, d = 0.006 Thread # 0
+
+Checkpoint 1: a = x[8] = -1060001845662973952.000, b = y[8] = 2041929072, c = y[8] = 0, d = 0.006 Thread # 0
+
+Checkpoint 1: a = x[9] = -1060001845662973952.000, b = y[9] = 2041913997, c = y[9] = 0, d = 0.006 Thread # 0
+
+Checkpoint 1: a = x[0] = 0.000, b = y[0] = 0, c = y[0] = 0, d = 0.000 Thread # 3
+
+Checkpoint 1: a = x[0] = 0.000, b = y[0] = 0, c = y[0] = 0, d = 0.000 Thread # 9
+
+Checkpoint 1: a = x[0] = 0.000, b = y[0] = 0, c = y[0] = 0, d = 0.000 Thread # 4
+
+Checkpoint 1: a = x[0] = 0.000, b = y[0] = 0, c = y[0] = 0, d = 0.000 Thread # 6
+
+Checkpoint 1: a = x[0] = 0.000, b = y[0] = 0, c = y[0] = 0, d = 0.000 Thread # 5
+
+Checkpoint 1: a = x[0] = 0.000, b = y[0] = 0, c = y[0] = 0, d = 0.000 Thread # 2
+
+Checkpoint 1: a = x[0] = 0.000, b = y[0] = 0, c = y[0] = 0, d = 0.000 Thread # 8
+
+Checkpoint 1: a = x[0] = 0.000, b = y[0] = 0, c = y[0] = 0, d = 0.000 Thread # 7
+
+Checkpoint 1: a = x[0] = 0.000, b = y[0] = 0, c = y[0] = 0, d = 0.000 Thread # 1
+
+Checkpoint 2: a = x[19] = -1060001845662973952.000, b = y[19] = 2041913997, c = y[19] = 0, d = 0.006 Thread # 0
+
+@b{Análisis y conclusión}
+
+Una vez que se forma el @i{team} dentro del bloque de paralelización se divide entre los threads el número de tareas, de tal modo que el thread #0 tiene la tarea de resolver el @i{for-loop} y los demás threads no les queda otra tarea más que tomar la variable @b{i} con valor 0. Así el @b{checkpoint 1} tiene en total 19 replicas de la variable @b{i}, valor que será accarrreado al @b{checkpoint 2}, el cual al estar fuera del bloque de paralelización estará a cargo del thread #0. 
+
+Es obvio que el valor de la variable @b{i} en el @b{checkpoint 2} no puede ser 19, pero esto es debido a que hay recurrencia de tareas, además de que no se deberíá de acarrerar por estar fuera del bloque de paralelización. Por tal motivo es que es necesario hacer uso de la directiva @i{for}.
+
+@b{Ahora incluimos la directiva @i{for}}
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+#define TAMANO 10
+
+void reduction1(float *x, int *y, int n);
+
+int main()
+{
+    int n = 10;
+    float x[TAMANO];
+    int y[TAMANO];
+
+    reduction1(x, y, n);
+    return 0;
+}
+
+void reduction1(float *x, int *y, int n)
+{
+    int i, b, c;
+    float a, d;
+    
+    a = 0.0;
+    b = 0;
+    c = y[0];
+    d = x[0];
+    
+    #pragma omp parallel for num_threads(10) 
+    for (i = 0; i < n; i++)
+    {
+        a += x[i];
+        b ^= y[i];
+        
+        if (c > y[i]) c = y[i];
+	
+        d = fmaxf(d, x[i]);
+	
+        printf("Checkpoint 1: a = x[%d] = %.3f, b = y[%d] = %d, c = y[%d] = %d, d = %.3f Thread # %d\n\n", i, a, i, b, i, c, d, omp_get_thread_num());
+    }
+    printf("Checkpoint 2: a = x[%d] = %.3f, b = y[%d] = %d, c = y[%d] = %d, d = %.3f Thread # %d\n\n", i, a, i, b, i, c, d, omp_get_thread_num());
+    
+}
+
+@end verbatim
+
+@b{Resultados}
+
+Checkpoint 1: a = x[0] = -0.000, b = y[0] = 1216, c = y[0] = -1759092496, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[9] = -0.000, b = y[9] = -1759109361, c = y[9] = -1759092496, d = 0.000 Thread # 9
+
+Checkpoint 1: a = x[3] = -0.000, b = y[3] = 1216, c = y[3] = -1759092496, d = 0.000 Thread # 3
+
+Checkpoint 1: a = x[1] = 0.000, b = y[1] = 0, c = y[1] = 0, d = 0.000 Thread # 1
+
+Checkpoint 1: a = x[5] = 0.000, b = y[5] = 20862, c = y[5] = -2074230672, d = 0.000 Thread # 5
+
+Checkpoint 1: a = x[8] = -0.000, b = y[8] = 326890814, c = y[8] = -2074230672, d = 0.000 Thread # 8
+
+Checkpoint 1: a = x[4] = -0.000, b = y[4] = 1216, c = y[4] = -1759092496, d = 0.000 Thread # 4
+
+Checkpoint 1: a = x[6] = -0.000, b = y[6] = -1759092496, c = y[6] = -1759092496, d = 0.000 Thread # 6
+
+Checkpoint 1: a = x[7] = -0.000, b = y[7] = -1759103666, c = y[7] = -1759092496, d = 0.000 Thread # 7
+
+Checkpoint 1: a = x[2] = 0.000, b = y[2] = 1216, c = y[2] = -1759092496, d = 0.000 Thread # 2
+
+Checkpoint 2: a = x[0] = 0.000, b = y[0] = 20862, c = y[0] = -2074230672, d = 0.000 Thread # 0
+
+@b{Análisis y conclusión}
+
+Bajo la cláusula @i{for} el @i{team} se divide la tarea del @i{for-loop} entre el total de threads. De modo que todo el @b{checkpoint 1} usa todos los threads, y al terminar el bloque de paralelización no se acarrea el valor de la variable @b{i} y se regresa al thread #0. 
+
+
+@b{incluimos la cláusula private}:
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+#define TAMANO 10
+
+void reduction1(float *x, int *y, int n);
+
+int main()
+{
+    int n = 10;
+    float x[TAMANO];
+    int y[TAMANO];
+
+    reduction1(x, y, n);
+    return 0;
+}
+
+void reduction1(float *x, int *y, int n)
+{
+    int i, b, c;
+    float a, d;
+    
+    a = 0.0;
+    b = 0;
+    c = y[0];
+    d = x[0];
+    
+    #pragma omp parallel for num_threads(10) private(i) 
+    for (i = 0; i < n; i++)
+    {
+        a += x[i];
+        b ^= y[i];
+        
+        if (c > y[i]) c = y[i];
+	
+        d = fmaxf(d, x[i]);
+	
+        printf("Checkpoint 1: a = x[%d] = %.3f, b = y[%d] = %d, c = y[%d] = %d, d = %.3f Thread # %d\n\n", i, a, i, b, i, c, d, omp_get_thread_num());
+    }
+    printf("Checkpoint 2: a = x[%d] = %.3f, b = y[%d] = %d, c = y[%d] = %d, d = %.3f Thread # %d\n\n", i, a, i, b, i, c, d, omp_get_thread_num());
+    
+}
+
+
+@end verbatim
+
+@b{Resultados}
+
+Checkpoint 1: a = x[2] = -1798088254763891193879113911762944.000, b = y[2] = -942783360, c = y[2] = -1057733520, d = 0.000 Thread # 2
+
+Checkpoint 1: a = x[4] = 0.000, b = y[4] = -1057734480, c = y[4] = -1057733520, d = 0.000 Thread # 4
+
+Checkpoint 1: a = x[6] = 0.000, b = y[6] = -942783360, c = y[6] = -1057733520, d = 0.000 Thread # 6
+
+Checkpoint 1: a = x[1] = 0.000, b = y[1] = 0, c = y[1] = 0, d = 0.000 Thread # 1
+
+Checkpoint 1: a = x[5] = 0.000, b = y[5] = -1057746501, c = y[5] = -1057733520, d = 0.000 Thread # 5
+
+Checkpoint 1: a = x[7] = 0.000, b = y[7] = 21963, c = y[7] = 0, d = 0.000 Thread # 7
+
+Checkpoint 1: a = x[3] = 0.000, b = y[3] = -942783360, c = y[3] = -1057733520, d = 0.000 Thread # 3
+
+Checkpoint 1: a = x[0] = 0.000, b = y[0] = 0, c = y[0] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[8] = 0.000, b = y[8] = -1057733520, c = y[8] = -1057733520, d = 0.000 Thread # 8
+
+Checkpoint 1: a = x[9] = 0.000, b = y[9] = -1057734833, c = y[9] = -1057733520, d = 0.000 Thread # 9
+
+Checkpoint 2: a = x[0] = 0.000, b = y[0] = -1057734833, c = y[0] = -1057733520, d = 0.000 Thread # 0
+
+@b{Análisis y conclusión}
+
+En este ejemplo no hay variación con respecto al ejercicio  anterior, puesto que aunque en este caso se incluye en la cláusula @i{private} la variable @b{i}, en el caso anterior, la variable @b{i} también es implícitamente private, puesto que para OpenMP todo índice en el @i{loop-for} se le considera una variable privada.
+
+@b{A la sintaxis se le agrega la cláusula @i{shared}, quedando con la siguiente estructura: #pragma omp parallel for num_threads(10) private(i) shared(x, y, n)}
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+#define TAMANO 10
+
+void reduction1(float *x, int *y, int n);
+
+int main()
+{
+    int n = 10;
+    float x[TAMANO];
+    int y[TAMANO];
+
+    reduction1(x, y, n);
+    return 0;
+}
+
+void reduction1(float *x, int *y, int n)
+{
+    int i, b, c;
+    float a, d;
+    
+    a = 0.0;
+    b = 0;
+    c = y[0];
+    d = x[0];
+    
+    #pragma omp parallel for num_threads(10) private(i) shared(x, y, n) 
+    for (i = 0; i < n; i++)
+    {
+        a += x[i];
+        b ^= y[i];
+        
+        if (c > y[i]) c = y[i];
+	
+        d = fmaxf(d, x[i]);
+	
+        printf("Checkpoint 1: a = x[%d] = %.3f, b = y[%d] = %d, c = y[%d] = %d, d = %.3f Thread # %d\n\n", i, a, i, b, i, c, d, omp_get_thread_num());
+    }
+    printf("Checkpoint 2: a = x[%d] = %.3f, b = y[%d] = %d, c = y[%d] = %d, d = %.3f Thread # %d\n\n", i, a, i, b, i, c, d, omp_get_thread_num());
+    
+}
+ 
+
+@end verbatim
+
+@b{Resultados}
+
+
+Checkpoint 1: a = x[0] = 0.000, b = y[0] = 0, c = y[0] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[6] = 0.000, b = y[6] = 11994, c = y[6] = 0, d = 0.000 Thread # 6
+
+Checkpoint 1: a = x[5] = 0.000, b = y[5] = 115064362, c = y[5] = 0, d = 0.000 Thread # 5
+
+Checkpoint 1: a = x[7] = 0.000, b = y[7] = 115076045, c = y[7] = 0, d = 0.000 Thread # 7
+
+Checkpoint 1: a = x[4] = 0.000, b = y[4] = 115076045, c = y[4] = 0, d = 0.000 Thread # 4
+
+Checkpoint 1: a = x[2] = 0.000, b = y[2] = 32765, c = y[2] = 0, d = 0.000 Thread # 2
+
+Checkpoint 1: a = x[9] = 0.000, b = y[9] = 32765, c = y[9] = 0, d = 0.000 Thread # 9
+
+Checkpoint 1: a = x[8] = 0.000, b = y[8] = 1169025453, c = y[8] = 0, d = 0.000 Thread # 8
+
+Checkpoint 1: a = x[1] = 0.000, b = y[1] = 115076045, c = y[1] = 0, d = 0.000 Thread # 1
+
+Checkpoint 1: a = x[3] = 0.000, b = y[3] = 115064362, c = y[3] = 0, d = 0.000 Thread # 3
+
+Checkpoint 2: a = x[0] = 0.000, b = y[0] = 115076045, c = y[0] = 0, d = 0.000 Thread # 0
+
+@b{Análisis y conclusión}
+
+@b{Ahora incluimos el primer reduction}
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+#define TAMANO 10
+
+void reduction1(float *x, int *y, int n);
+
+int main()
+{
+    int n = 10;
+    float x[TAMANO];
+    int y[TAMANO];
+
+    reduction1(x, y, n);
+    return 0;
+}
+
+void reduction1(float *x, int *y, int n)
+{
+    int i, b, c;
+    float a, d;
+    
+    a = 0.0;
+    b = 0;
+    c = y[0];
+    d = x[0];
+    
+    #pragma omp parallel for num_threads(10) private(i) shared(x, y, n) reduction(^:b) 
+    for (i = 0; i < n; i++)
+    {
+        a += x[i];
+        b ^= y[i];
+        
+        if (c > y[i]) c = y[i];
+	
+        d = fmaxf(d, x[i]);
+	
+        printf("Checkpoint 1: a = x[%d] = %.3f, b = y[%d] = %d, c = y[%d] = %d, d = %.3f Thread # %d\n\n", i, a, i, b, i, c, d, omp_get_thread_num());
+    }
+    printf("Checkpoint 2: a = x[%d] = %.3f, b = y[%d] = %d, c = y[%d] = %d, d = %.3f Thread # %d\n\n", i, a, i, b, i, c, d, omp_get_thread_num());
+    
+}
+
+@end verbatim
+
+@b{Resultados}
+
+Checkpoint 1: a = x[5] = 0.000, b = y[5] = 21917, c = y[5] = 0, d = 0.000 Thread # 5
+
+Checkpoint 1: a = x[6] = -1192137617873368271185678172160.000, b = y[6] = -244268816, c = y[6] = -528276144, d = 0.000 Thread # 6
+
+Checkpoint 1: a = x[9] = -1192137617873368271185678172160.000, b = y[9] = 32767, c = y[9] = -528276144, d = 0.000 Thread # 9
+
+Checkpoint 1: a = x[2] = -1192137617873368271185678172160.000, b = y[2] = 0, c = y[2] = -528276144, d = 0.000 Thread # 2
+
+Checkpoint 1: a = x[0] = 0.000, b = y[0] = 0, c = y[0] = -528276144, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[4] = -1192137617873368271185678172160.000, b = y[4] = -244267968, c = y[4] = -528276144, d = 0.000 Thread # 4
+
+Checkpoint 1: a = x[3] = -1192137617873368271185678172160.000, b = y[3] = 0, c = y[3] = -528276144, d = 0.000 Thread # 3
+
+Checkpoint 1: a = x[1] = 0.000, b = y[1] = 0, c = y[1] = 0, d = 0.000 Thread # 1
+
+Checkpoint 1: a = x[8] = 0.000, b = y[8] = -528276144, c = y[8] = -528276144, d = 0.000 Thread # 8
+
+Checkpoint 1: a = x[7] = 0.000, b = y[7] = 21917, c = y[7] = 0, d = 0.000 Thread # 7
+
+Checkpoint 2: a = x[0] = -1192137617873368271185678172160.000, b = y[0] = -528261601, c = y[0] = -528276144, d = 0.000 Thread # 0
+
+@b{Análisis y conclusión}
+
+@b{Incluimos el segudo reduce}
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+#define TAMANO 10
+
+void reduction1(float *x, int *y, int n);
+
+int main()
+{
+    int n = 10;
+    float x[TAMANO];
+    int y[TAMANO];
+
+    reduction1(x, y, n);
+    return 0;
+}
+
+void reduction1(float *x, int *y, int n)
+{
+    int i, b, c;
+    float a, d;
+    
+    a = 0.0;
+    b = 0;
+    c = y[0];
+    d = x[0];
+    
+    #pragma omp parallel for num_threads(10) private(i) shared(x, y, n) reduction(^:b) reduction(min:c) 
+    for (i = 0; i < n; i++)
+    {
+        a += x[i];
+        b ^= y[i];
+        
+        if (c > y[i]) c = y[i];
+	
+        d = fmaxf(d, x[i]);
+	
+        printf("Checkpoint 1: a = x[%d] = %.3f, b = y[%d] = %d, c = y[%d] = %d, d = %.3f Thread # %d\n\n", i, a, i, b, i, c, d, omp_get_thread_num());
+    }
+    printf("Checkpoint 2: a = x[%d] = %.3f, b = y[%d] = %d, c = y[%d] = %d, d = %.3f Thread # %d\n\n", i, a, i, b, i, c, d, omp_get_thread_num());
+    
+}
+
+@end verbatim
+
+@b{Resultados}
+
+
+Checkpoint 1: a = x[7] = 0.000, b = y[7] = 22000, c = y[7] = 22000, d = 0.000 Thread # 7
+
+Checkpoint 1: a = x[6] = 235.688, b = y[6] = 1131131152, c = y[6] = 1131131152, d = 235.688 Thread # 6
+
+Checkpoint 1: a = x[9] = 0.000, b = y[9] = 32766, c = y[9] = 32766, d = 0.000 Thread # 9
+
+Checkpoint 1: a = x[4] = 0.000, b = y[4] = 1131132000, c = y[4] = 1131132000, d = 0.000 Thread # 4
+
+Checkpoint 1: a = x[5] = 0.000, b = y[5] = 22000, c = y[5] = 22000, d = 0.000 Thread # 5
+
+Checkpoint 1: a = x[2] = 0.000, b = y[2] = 0, c = y[2] = 0, d = 0.000 Thread # 2
+
+Checkpoint 1: a = x[3] = 0.000, b = y[3] = 0, c = y[3] = 0, d = 0.000 Thread # 3
+
+Checkpoint 1: a = x[1] = 0.000, b = y[1] = 0, c = y[1] = 0, d = 0.000 Thread # 1
+
+Checkpoint 1: a = x[8] = 0.000, b = y[8] = -1264125824, c = y[8] = -1264125824, d = 0.000 Thread # 8
+
+Checkpoint 1: a = x[0] = 0.000, b = y[0] = 0, c = y[0] = 0, d = 0.000 Thread # 0
+
+Checkpoint 2: a = x[0] = 0.000, b = y[0] = -1264156146, c = y[0] = -1264125824, d = 0.000 Thread # 0
+
+@b{Análisis y conclusión}
+
+
+@b{Incluimos el ultimo reduce}
+
+@verbatim
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <omp.h>
+#include <assert.h>
+
+#define TAMANO 10
+
+void reduction1(float *x, int *y, int n);
+
+int main()
+{
+    int n = 10;
+    float x[TAMANO];
+    int y[TAMANO];
+
+    reduction1(x, y, n);
+    return 0;
+}
+
+void reduction1(float *x, int *y, int n)
+{
+    int i, b, c;
+    float a, d;
+    
+    a = 0.0;
+    b = 0;
+    c = y[0];
+    d = x[0];
+    
+    #pragma omp parallel for num_threads(10) private(i) shared(x, y, n) reduction(^:b) reduction(min:c) reduction(max:d)
+    for (i = 0; i < n; i++)
+    {
+        a += x[i];
+        b ^= y[i];
+        
+        if (c > y[i]) c = y[i];
+	
+        d = fmaxf(d, x[i]);
+	
+        printf("Checkpoint 1: a = x[%d] = %.3f, b = y[%d] = %d, c = y[%d] = %d, d = %.3f Thread # %d\n\n", i, a, i, b, i, c, d, omp_get_thread_num());
+    }
+    printf("Checkpoint 2: a = x[%d] = %.3f, b = y[%d] = %d, c = y[%d] = %d, d = %.3f Thread # %d\n\n", i, a, i, b, i, c, d, omp_get_thread_num());
+    
+}
+
+@end verbatim
+
+@b{Resultados}
+
+Checkpoint 1: a = x[7] = -0.000, b = y[7] = 21920, c = y[7] = 21920, d = 0.000 Thread # 7
+
+Checkpoint 1: a = x[6] = -0.000, b = y[6] = -1904135920, c = y[6] = -1904135920, d = -0.000 Thread # 6
+
+Checkpoint 1: a = x[8] = 0.000, b = y[8] = -559857520, c = y[8] = -559857520, d = 0.000 Thread # 8
+
+Checkpoint 1: a = x[1] = 0.000, b = y[1] = 0, c = y[1] = 0, d = 0.000 Thread # 1
+
+Checkpoint 1: a = x[0] = 0.000, b = y[0] = 0, c = y[0] = 0, d = 0.000 Thread # 0
+
+Checkpoint 1: a = x[3] = -0.000, b = y[3] = 0, c = y[3] = 0, d = 0.000 Thread # 3
+
+Checkpoint 1: a = x[4] = -0.000, b = y[4] = -1904135024, c = y[4] = -1904135024, d = 0.000 Thread # 4
+
+Checkpoint 1: a = x[2] = 6425019940864.000, b = y[2] = 0, c = y[2] = 0, d = 6425019940864.000 Thread # 2
+
+Checkpoint 1: a = x[5] = -0.000, b = y[5] = 21920, c = y[5] = 21920, d = 0.000 Thread # 5
+
+Checkpoint 1: a = x[9] = -0.000, b = y[9] = 32767, c = y[9] = 32767, d = 0.000 Thread # 9
+
+Checkpoint 2: a = x[0] = 6425019940864.000, b = y[0] = -559858961, c = y[0] = -1904135920, d = 6425019940864.000 Thread # 0
+
+@b{Análisis y conclusión}
+
+
+
+
+
+

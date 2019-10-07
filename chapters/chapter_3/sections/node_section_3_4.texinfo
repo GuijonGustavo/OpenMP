@@ -1,0 +1,30 @@
+@node node_section_3_4
+@section Reduction
+
+@b{reduction(tipo:valor-i_1, ..., valor-i_N)}: Cada thread privatiza las variables listadas y al finalizar la sección de la directiva en la que aparece la cláusula, los distintos threads actualizan la variable global de la que deriva la copia privada realizando la operación indicada por la clásulua reduction. Esto evita condiciones de carrera. El tipo puede ser: +, -, *, /, min, max ó definido por el usuario.
+
+Las variables en "valor-i" deben ser compartidas dentro de la región paralela.
+
+Adentro de parallel o el bloque de construcción de trabajo en paralelo:
+
+• Se crea una copia privada de cada variable de la lista y se inicializa de acuerdo al valor-i.
+
+• Estas copias son actualizadas localmente por los threads.
+
+•Al final del bloque de construcción, las copias locales se combinan de acuerdo al tipo a un solo valor y se almacena en la variable compartida original.
+
+Se puede especificar más de una operación de reducción.
+
+El valor de la variable de reducción es indefinido desde el momento que el primer thread alcanza la cláusula hasta que la operación se completa
+
+Es la aplicación de un operador, puede ser binario conmutativo y asociativo a una variable y algún otro valor, almacenando el resultado en la variable.
+
+La cláusula reduction especifica un tipo de dato distinto de shared o private.
+
+Si se utiliza nowait la variable está indefinida hasta la primera barrera de sincronización
+
+@menu
+* node_subsection_3_4_1::
+@end menu
+
+@include @file{chapters/chapter_3/sections/subsections/node_subsection_3_4_1.texinfo} 

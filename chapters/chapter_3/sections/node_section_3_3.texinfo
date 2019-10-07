@@ -1,8 +1,6 @@
 @node node_section_3_3
 @section Lastprivate
 
-
-
 @menu
 * node_subsection_3_3_1::
 @end menu

@@ -1,0 +1,408 @@
+@node node_subsection_1_2_3
+@subsection Ejemplo 2.3
+En el siguiente ejemplo  es una muestra del porqué la sincronización es dificil de realizar correctamente a través de variables. Aquí se presenta la secuencia @i{write(1)-flush(1)-flush(2)-read(2)} que  como puede verse a lo largo del análisis del ejemplo, los distintos resultados evidencían los problemas de sincronización.
+
+Revisemos el siguiente ejemplo sin usar la sintaxis de OpenMP:
+
+@verbatim
+#include <stdio.h>
+#include <omp.h>
+
+int main()
+{
+    
+    int flag = 0;
+    
+    printf("Checkpoint 1: Thread # %d: flag = %d\n\n", omp_get_thread_num(), flag);
+    {
+    printf("Checkpoint 2: Thread # %d: flag = %d\n\n", omp_get_thread_num(), flag);
+    
+    if(omp_get_thread_num()==0)
+    {
+        flag++;
+        
+        printf("Checkpoint 3: Thread # %d: flag = %d\n\n", omp_get_thread_num(), flag);
+    }
+    else if(omp_get_thread_num()==1)
+    {
+    
+        printf("Checkpoint 4: Thread # %d: flag = %d\n\n", omp_get_thread_num(), flag);
+
+    flag++;
+
+    printf("Checkpoint 5: Thread # %d: flag = %d\n\n", omp_get_thread_num(), flag);
+    }
+    
+    else if(omp_get_thread_num()==2)
+    {
+            
+        printf("Checkpoint 6: Thread # %d: flag = %d\n\n", omp_get_thread_num(), flag);
+    }
+    }
+}
+@end verbatim
+
+@b{Resultados}
+
+Checkpoint 1: flag = 0: Thread # 0
+                                  
+Checkpoint 2: flag = 0: Thread # 0
+                                  
+Checkpoint 3: flag = 1: Thread # 0
+
+@b{Análisis y conclusión}
+
+Como sólo hay un thread en el prooeso, el #0, implica que sólo los @b{checkpoint 1}, @b{2} y @b{3} serán ejecutados.
+
+@b{Ahora incluimos en el ejercicio la directiva de paralelización @i{parallel} configurado para 3 threads: @i{#pragma omp parallel num_threads(3)}}:
+
+@verbatim
+#include <stdio.h>
+#include <omp.h>
+
+int main()
+{
+    
+    int flag = 0;
+    
+    printf("Checkpoint 1: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+
+    #pragma omp parallel num_threads(3)
+    {
+        printf("Checkpoint 2: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+        
+        if(omp_get_thread_num()==0)
+        {
+            flag++;
+            
+            printf("Checkpoint 3: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+        }
+        else if(omp_get_thread_num()==1)
+        {
+            
+            printf("Checkpoint 4: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+
+            flag++;
+
+            printf("Checkpoint 5: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+        }
+        
+        else if(omp_get_thread_num()==2)
+        {
+                
+            printf("Checkpoint 6: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+
+        }
+    }
+}
+@end verbatim
+
+@b{Resultados}
+
+Checkpoint 1: flag = 0: Thread # 0
+                                  
+Checkpoint 2: flag = 0: Thread # 0
+                                  
+Checkpoint 2: flag = 0: Thread # 1
+                                  
+Checkpoint 2: flag = 0: Thread # 2
+                                  
+Checkpoint 6: flag = 1: Thread # 2
+                                  
+Checkpoint 4: flag = 1: Thread # 1
+                                  
+Checkpoint 5: flag = 2: Thread # 1
+                                  
+Checkpoint 3: flag = 1: Thread # 0
+
+@b{Análisis y conclusión}
+
+Antes de la paralelización sólo hay un thread, el #0. Por lo que en el @b{checkpoint 1} sólo es ejecutado por ese thread. 
+
+Luego inicia el bloque de paralelización con 3 treads: #0, #1 y #2, por lo que son registrados por el @b{checkpoint 2}.
+
+El último thread en salir del @b{checkpoint 2} fue el thread #2, por lo que sigue su camino con el valor de la variable que tiene registrada: flag = 0. Su camino continúa hasta el condicional @i{omp_get_thread_num()==2} para imprimir el valor de flag = 1 en el @b{checkpoint 6}. Ahí termina la vida de ese thread.
+
+Por otro lado el thread #1 entra al @b{checkpoint 4} con el valor de flag = 1, luego aumenta el valor de la variable flag a flag = 2, que es registrada por el @b{checkpoint 5}.
+
+Finalmente el thread #0 llevaba el valor de flag = 0, entra al codicional @i{omp_get_thread_num()==0} y cambia el valor de flag a flag = 1.
+
+Es notorio que cada thread tiene valores diferentes para la variable flag, pues sus caminos dentro del script son distintos y no se comunican entre ellas el cambio de valor que van adquiriendo.
+
+@b{Ahora revisemos el comportamiento del script agregando la primera directiva @i{atomic} con su cláusula @i{update}}:
+
+
+@verbatim
+#include <stdio.h>
+#include <omp.h>
+
+int main()
+{
+    int flag = 0;
+    
+    printf("Checkpoint 1: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+
+    #pragma omp parallel num_threads(3)
+    {
+    printf("Checkpoint 2: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    
+    if(omp_get_thread_num()==0)
+    {
+        #pragma omp atomic update
+        flag++;
+        
+        printf("Checkpoint 3: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    }
+    else if(omp_get_thread_num()==1)
+    {
+        printf("Checkpoint 4: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+
+        flag++;
+
+        printf("Checkpoint 5: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    }
+    
+    else if(omp_get_thread_num()==2)
+    {
+           
+        printf("Checkpoint 6: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    }
+    }
+}
+@end verbatim
+
+@b{Resultados}
+
+Checkpoint 1: flag = 0: Thread # 0
+                                  
+Checkpoint 2: flag = 0: Thread # 0
+                                  
+Checkpoint 2: flag = 0: Thread # 2
+                                  
+Checkpoint 6: flag = 1: Thread # 2
+                                  
+Checkpoint 2: flag = 0: Thread # 1
+                                  
+Checkpoint 4: flag = 1: Thread # 1
+                                  
+Checkpoint 5: flag = 2: Thread # 1
+                                  
+Checkpoint 3: flag = 1: Thread # 0
+
+@b{Análisis y conclusión}
+
+Antes de comenzar revisemos que lo que significa para la programación en general lo qué es una @b{variable atómica}: una operación atómica consiste en utilizar mecanismos de sincronización para asegurarse de que la operación sea visible, desde cualquier otro thread, como una operación única, atómica (es decir, no se puede dividir en partes). Eso significa que cualquier otro thread, una vez que la operación se haga atómica, verá el valor de de la variable antes o después de la asignación. Pero nunca el valor intermedio. Si no fuese la variable atómica significaría que otro thread puede leer el valor de dicha variable y ver el estado intermedio. Así, las operaciones atómicas son operaciones que no deben ser realizadas por dos hilos simultáneamente.
+
+El @b{checkpoint 1} registra el therad inicial, el thread #0. En seguida se paraleliza el bloque por lo que en el @b{checkpoint 2} se tienen los threads #0, #1, y #2 con @b{flag = 0}. El @b{checkpoint 3} registra la actualización de la variable flag a @b{flag = 1} y es actualizada para todos los threads. A partir de aquí todos los threads estan enterados de la actualización. Así, el thread #2 registra el valor actualizado de @b{flag = 1} en el @b{checkpoint 6}. Y finalmente el thread #1 entra al @b{checkpoint 4} con un valor de @b{flag = 1} y es postincrementado en 1, por lo que finalmente el @b{checkpoint 5} registra un valor de @b{flag = 2}.
+
+@b{Ahora revisemos el comportamiento del script agregando la segunda directiva @i{atomic}}:
+
+@verbatim
+#include <stdio.h>
+#include <omp.h>
+
+int main()
+{
+    
+    int flag = 0;
+    
+    printf("Checkpoint 1: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+
+    #pragma omp parallel num_threads(3)
+    {
+    printf("Checkpoint 2: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    
+    if(omp_get_thread_num()==0)
+    {
+        #pragma omp atomic update
+        flag++;
+        
+        printf("Checkpoint 3: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    }
+    else if(omp_get_thread_num()==1)
+    {
+        printf("Checkpoint 4: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+
+        #pragma omp atomic update
+        flag++;
+
+        printf("Checkpoint 5: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    }
+    
+    else if(omp_get_thread_num()==2)
+    {
+           
+        printf("Checkpoint 6: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    }
+    }
+}
+@end verbatim
+@b{Resultados}
+
+Checkpoint 1: flag = 0: Thread # 0
+                                  
+Checkpoint 2: flag = 0: Thread # 0
+                                  
+Checkpoint 2: flag = 0: Thread # 1
+                                  
+Checkpoint 3: flag = 1: Thread # 0
+                                  
+Checkpoint 4: flag = 1: Thread # 1
+                                  
+Checkpoint 2: flag = 0: Thread # 2
+                                  
+Checkpoint 6: flag = 2: Thread # 2
+                                  
+Checkpoint 5: flag = 2: Thread # 1
+
+@b{Análisis y conclusión}
+
+El @b{checkpoint 1} recibe a un único thread, el #0. Luego pasa al bloque de paralelización y los  threads #1, #2 y #3 acarrean el valor de la variable @b{flag = 0} que es registrado por el @b{checkpoint 2}. El thread #0 es condicionado y postincrementa su valor en 1 adquiriendo la variable @b{flag = 1} y es actualizada para todos los threads mediante el constructor @i{atomic update}, mismo que es registrado por los @b{checkpoint 3} y @b{checkpoint 4}. Inmediatamente es postincrementada la variable a @b{flag = 2} y es registrada por los @b{checkpoint 5} y @b{checkpoint 6}.
+
+@b{Agregamos el primer subloque de @i{flush}}:
+
+@verbatim
+#include <stdio.h>
+#include <omp.h>
+
+int main()
+{
+    
+    int flag = 0;
+    
+    printf("Checkpoint 1: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    #pragma omp parallel num_threads(3)
+    {
+    printf("Checkpoint 2: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    
+    if(omp_get_thread_num()==0)
+    {
+        #pragma omp atomic update
+        flag++;
+        
+    printf("Checkpoint 3: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    }
+    else if(omp_get_thread_num()==1)
+    {
+    
+        #pragma omp flush(flag)
+        while(flag < 1)
+        {
+            #pragma omp flush(flag)
+        }
+        printf("Checkpoint 4: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+
+        #pragma omp atomic update
+        flag++;
+
+        printf("Checkpoint 5: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    }
+    
+    else if(omp_get_thread_num()==2)
+    {
+        printf("Checkpoint 6: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    }
+    }
+}
+@end verbatim
+@b{Resultados}
+
+Checkpoint 1: flag = 0: Thread # 0
+                                  
+Checkpoint 2: flag = 0: Thread # 0
+                                  
+Checkpoint 3: flag = 1: Thread # 0
+                                  
+Checkpoint 2: flag = 1: Thread # 2
+                                  
+Checkpoint 6: flag = 1: Thread # 2
+                                  
+Checkpoint 2: flag = 0: Thread # 1
+                                  
+Checkpoint 4: flag = 1: Thread # 1
+                                  
+Checkpoint 5: flag = 2: Thread # 1
+
+@b{Análisis y conclusión}
+
+Como ya hemos vismo el @b{checkpoint 1} recibe el thread #0, y se procede a entrar al bloque de paralelización. Veamos cómo el @b{checkpoint 2} registra el valor de @b{flag = 1} cuando apenas  el thread #0 ha entrado a la zona de paralelización, pero aún no a la zona de postincremento de la variable. Esto es debido a que el thread #0 ya registró con unos instantes antes el valor de @b{flag = 1} e hizo un @i{atomic update} que le avisa a todos los demás threads del nuevo valor. El thread #1 con el valor del @b{flag =1} registra este valor en el @b{checkpoint 4} realiza un @i{atomic update} y luego un post incremento que se verá reflejado en el @b{checkpoint 5}.
+
+El thread #1 registra el valor de @b{flag = 1} que es registrado por el @b{checkpoint 4} inmediatamente después hay un postincremento que es registrado por el @b{checkpoint 5} con @b{flag = 2}. 
+
+La importancia de la directiva @i{flush} es que resuelve la consistencia, al exportar a todos los threads un valor modificado de una variable que ha realizado otro hilo en el procesamiento paralelo.
+
+Finalmente analizamos con todas las directivas y cláusulas. Con el que esperamos que haya consistencia del valor de la variable @i{flag}:
+
+@verbatim
+#include <stdio.h>
+#include <omp.h>
+
+int main()
+{
+    
+    int flag = 0;
+    
+    printf("Checkpoint 1: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    #pragma omp parallel num_threads(3)
+    {
+    printf("Checkpoint 2: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    
+    if(omp_get_thread_num()==0)
+    {
+        #pragma omp atomic update
+        flag++;
+        
+    printf("Checkpoint 3: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    }
+    else if(omp_get_thread_num()==1)
+    {
+    
+        #pragma omp flush(flag)
+        while(flag < 1)
+        {
+            #pragma omp flush(flag)
+        }
+    printf("Checkpoint 4: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+
+    #pragma omp atomic update
+    flag++;
+
+    printf("Checkpoint 5: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    }
+    
+    else if(omp_get_thread_num()==2)
+    {
+        #pragma omp flush(flag)
+        while(flag < 2)
+        {
+            #pragma omp flush(flag)
+        }
+        
+    printf("Checkpoint 6: flag = %d Thread # %d\n\n", flag, omp_get_thread_num());
+    }
+    }
+}
+@end verbatim
+
+@b{Resultados}
+
+Checkpoint 1: flag = 0: Thread # 0
+                                  
+Checkpoint 2: flag = 0: Thread # 0
+                                  
+Checkpoint 2: flag = 0: Thread # 1
+                                  
+Checkpoint 2: flag = 0: Thread # 2
+                                  
+Checkpoint 4: flag = 1: Thread # 1
+                                  
+Checkpoint 5: flag = 2: Thread # 1
+                                  
+Checkpoint 6: flag = 2: Thread # 2
+                                  
+Checkpoint 3: flag = 1: Thread # 0
+
+@b{Análisis y conclusión}
+
+Queda en evidencia que efectivamente lograr la sincronización de las variables es un trabajo que debe de hacerse con mucho cuidado. En este ejemplo se muestra que para que sea posible, se deben de utilizar las directivas @i{atomic update} así como @i{flush}. @i{atomic update} se utiliza para sincronizar variables escalares en las que interviene el incremento, mientras que @i{flush} para cada cuando se trabaja con varios threads en los que es necesario tener presente cómo cambian los valores de las variables en los distintos caminos que sigue cada thread.
+

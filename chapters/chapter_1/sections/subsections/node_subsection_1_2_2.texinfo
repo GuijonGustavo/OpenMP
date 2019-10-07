@@ -1,0 +1,202 @@
+@node node_subsection_1_2_2
+@subsection Ejemplo 2.1
+
+El siiguiente ejemplo demuestra porque la sincronización es díficil de implementar correctamente sobre las variables. El valor de la variable @b{flag} es indefinida en los @b{checkpoint 2} y @b{checkpoint 3} en el thread #1 y el valor de la variable @b{data} está únicamente bien definida en el @b{checkpoint 3}.
+
+Abordemos este ejemplo propuesto en la documentación, pero primero sin la sintaxis de OpenMP:
+
+@verbatim
+#include <stdio.h>
+#include <omp.h>
+
+int main()
+{
+
+int x;
+x = 2;
+
+{
+    if(omp_get_thread_num() == 0)
+    {
+        x = 5;
+        printf("Checkpoint 1: Thread # %d: x = %d\n\n", omp_get_thread_num(), x);
+    }
+    else 
+    {
+    
+        printf("Checkpoint 2: Thread # %d: x = %d\n\n", omp_get_thread_num(), x);
+    
+    }
+    
+    if(omp_get_thread_num() == 0)
+    {
+         printf("Checkpoint 3: Thread # %d: x = %d\n\n", omp_get_thread_num(), x);
+    }
+    else 
+    {
+         printf("Checkpoint 4: Thread # %d: x = %d\n\n", omp_get_thread_num(), x);
+    }
+}
+return 0;
+}
+@end verbatim
+
+@b{Resultados}
+
+Checkpoint 1: Thread # 0: x = 5
+
+Checkpoint 3: Thread # 0: x = 5
+
+@b{Análisis y conclusión}
+Como no está paralelizado sólo el thread #0 trabaja el el script de manera secuencial, de modo que sólo los @b{checkpoint 1} y @b{checkpoint 3} serán impresos. Y dado que se el thread pasa por el @b{checkpoint 1} el valor de la variable @b{x} cambia a 5.
+
+@b{Ahora vamos a paralelizar este mismo ejemplo pero con 6 threads}
+
+@verbatim
+#include <stdio.h>
+#include <omp.h>
+
+int main()
+{
+
+int x;
+x = 2;
+
+#pragma omo parallel num_threads(6) 
+{
+    if(omp_get_thread_num() == 0)
+    {
+        x = 5;
+        printf("Checkpoint 1: Thread # %d: x = %d\n\n", omp_get_thread_num(), x);
+    }
+    else 
+    {
+    
+        printf("Checkpoint 2: Thread # %d: x = %d\n\n", omp_get_thread_num(), x);
+    
+    }
+    
+    if(omp_get_thread_num() == 0)
+    {
+         printf("Checkpoint 3: Thread # %d: x = %d\n\n", omp_get_thread_num(), x);
+    }
+    else 
+    {
+         printf("Checkpoint 4: Thread # %d: x = %d\n\n", omp_get_thread_num(), x);
+    }
+}
+return 0;
+}
+@end verbatim
+
+@b{Resultados}
+
+Checkpoint 1: Thread # 0: x = 5
+
+Checkpoint 3: Thread # 0: x = 5
+
+@b{Análisis y conclusión}
+
+Se distribuyeron 6 threads pero, cómo sólo está considerando básicamente dos posibilidades: o es thread #0 u otro thread, pues están inutilizados 4 threads. De modo que ésta es una mala configuración. Lo mejor es configurar a 2. Pero además cómo el primer thread que es lanzado es el thread #0, se imprime el @b{checkpoint 1}, y por lo tanto también el @b{checkpoint 2}.
+
+@b{Luego del ejemplo anterior, configuramos la paralelización a 2 threads para que sea más optima. Pero ademas agregamos la cláusula @i{shared}. Esto garantizará que todos los threads pueden "ver" el valor de las demás variables que son trabajadas por los demás threads}:
+
+@verbatim
+#include <stdio.h>
+#include <omp.h>
+
+int main()
+{
+
+int x;
+x = 2;
+
+#pragma omo parallel num_threads(2) shared(x)
+{
+    if(omp_get_thread_num() == 0)
+    {
+        x = 5;
+        printf("Checkpoint 1: Thread # %d: x = %d\n\n", omp_get_thread_num(), x);
+    }
+    else 
+    {
+    
+        printf("Checkpoint 2: Thread # %d: x = %d\n\n", omp_get_thread_num(), x);
+    
+    }
+    
+    if(omp_get_thread_num() == 0)
+    {
+         printf("Checkpoint 3: Thread # %d: x = %d\n\n", omp_get_thread_num(), x);
+    }
+    else 
+    {
+         printf("Checkpoint 4: Thread # %d: x = %d\n\n", omp_get_thread_num(), x);
+    }
+}
+return 0;
+}
+@end verbatim
+
+@b{Resultados}
+
+Checkpoint 1: Thread # 0: x = 5
+
+Checkpoint 3: Thread # 0: x = 5
+
+@b{Análisis y conclusión}
+
+Por default cuando se paraleliza un bloque, en éste las variables son @i{shared}, lo que significa que los valores de las variables son visibles para todos los threads. Por lo que el uso de @i{shared} en este ejemplo subraya que la variable @b{x} es compartida. De modo que el resultado del ejemplo no es diferente al anterior. Pero sí es más óptimo al usar el número de threads adecuado.
+
+@b{Finalmente agregamos al ejemplo la directiva @i{barrier}}:
+
+@verbatim
+#include <stdio.h>
+#include <omp.h>
+
+int main()
+{
+
+int x;
+x = 2;
+
+#pragma omo parallel num_threads(2) shared(x)
+{
+    if(omp_get_thread_num() == 0)
+    {
+        x = 5;
+        printf("Checkpoint 1: Thread # %d: x = %d\n\n", omp_get_thread_num(), x);
+    }
+    else 
+    {
+    
+        printf("Checkpoint 2: Thread # %d: x = %d\n\n", omp_get_thread_num(), x);
+    
+    }
+    
+    #pragma omp barrier
+    if(omp_get_thread_num() == 0)
+    {
+         printf("Checkpoint 3: Thread # %d: x = %d\n\n", omp_get_thread_num(), x);
+    }
+    else 
+    {
+         printf("Checkpoint 4: Thread # %d: x = %d\n\n", omp_get_thread_num(), x);
+    }
+}
+return 0;
+}
+@end verbatim
+
+@b{Resultados}
+
+Checkpoint 1: Thread # 0: x = 5
+
+Checkpoint 3: Thread # 0: x = 5
+
+@b{Análisis y conclusión}
+
+
+En conclusión general tenemos en las distintas variantes que en el @b{checkpoint 2}, el valor de @b{x} podría ser 2 o 5, dependiendo de la sincronización de los subprocesos y la implementación de la asignación a la variable @b{x}. Hay dos razones por las cuales el valor en @b{checkpoint 2} podría no ser 5. Primero, @b{checkpoint 2} podría ejecutarse antes de que se ejecute la asignación a la variable @b{x}. En segundo lugar, incluso si el @b{checkpoint 2} se ejecuta después de la asignación, el thread #1 no garantiza que el valor de 5 sea visto porque el thread #0 puede no haber ejecutado desde la asignación.
+
+La directiva @i{barrier} después de @b{checkpoint 2} contiene de manera inplícita directivas @i{flush} en todos los threads, una sincronización de threads, por lo que el programador tiene garantizado que el valor de 5 será impreso por los @b{checkpoint 3} y @b{checkpoint 4}.
