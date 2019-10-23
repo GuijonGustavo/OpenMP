@@ -3,7 +3,7 @@
 <!-- This manual is for program, version version. Copyright C years copyright-owner.
 Permission is granted to creative commons, by Gustavo Magallanes-Guijón
  -->
-<!-- Created on el 22 octubre 2019 by texi2html 1.82
+<!-- Created on el 7 octubre 2019 by texi2html 1.82
 texi2html was written by: 
             Lionel Cons <Lionel.Cons@cern.ch> (original author)
             Karl Berry  <karl@freefriends.org>
@@ -250,8 +250,8 @@ Permission is granted to creative commons, by Gustavo Magallanes-Guijón
 <a name="Ejemplo-1_002e1"></a>
 <h3 class="subsection">1.2.1 Ejemplo 1.1</h3>
 
-<p><b>Empecemos por hacer el análisis del primer ejemplo que se propone en el manual de OpenMP. Para esto, ejecutemos el ejemplo sin paralelizar, es decir sin el uso de la sintaxis de OpenMP.</b>
-</p>
+<pre class="smallexample"><p><b>Empecemos por hacer el análisis del primer ejemplo que se propone en el manual de OpenMP. Para esto, ejecutemos el ejemplo sin paralelizar, es decir sin el uso de la sintaxis de OpenMP.</b>
+</p></pre>
 <pre class="verbatim">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;string.h&gt;
@@ -1098,27 +1098,6 @@ int main()
 <a name="Ejemplo-3_002e1"></a>
 <h3 class="subsection">1.3.1 Ejemplo 3.1</h3>
 
-<p>El siguiente ejemplo ilustra el uso de la <b>compilación condicional</b> usando  el macro de OpenMP <b>_OPENMP</b>. 
-</p><pre class="verbatim">#include &lt;stdio.h&gt;
-#include &lt;omp.h&gt;
-int main()
-{
-
-#ifdef _OPENMP
-    printf(&quot;Checkpoint 1: Thread # %d\n\n&quot;, omp_get_thread_num());
-#else
-    printf(&quot;Checkpoint 2: Thread # %d\n\n&quot;, omp_get_thread_num());
-#endif
-return 0;
-} 
-</pre><p><b>Resultados</b>
-</p>
-<p>Checkpoint 1: Thread # 0
-</p>
-<p><b>Análisis y conclusión</b>
-</p>
-<p>El resultado es simple: sólo se condiciona el trabajo de paralelización por la directivas #ifdef, #else y #endif
-</p>
 
  
 <hr size="6">
@@ -3982,7 +3961,7 @@ void reduction1(float *x, int *y, int n)
 </tr></table>
 <h1>Acerca de este documento</h1>
 <p>
-  Este documento ha sido generado por <em>Gustavo Magallanes GuijÃ³n</em> el <em>el 22 octubre 2019</em> utilizando <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+  Este documento ha sido generado por <em>Gustavo Magallanes GuijÃ³n</em> el <em>el 7 octubre 2019</em> utilizando <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
 </p>
 <p>
   Los botones de los paneles de navegaci&oacute;n tienen el significado siguiente:
@@ -4084,7 +4063,7 @@ void reduction1(float *x, int *y, int n)
 <hr size="1">
 <p>
  <font size="-1">
-  Este documento ha sido generado por <em>Gustavo Magallanes GuijÃ³n</em> el <em>el 22 octubre 2019</em> utilizando <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+  Este documento ha sido generado por <em>Gustavo Magallanes GuijÃ³n</em> el <em>el 7 octubre 2019</em> utilizando <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
  </font>
  <br>
 

@@ -1,0 +1,27 @@
+@node node_subsection_1_3_1
+@subsection Ejemplo 3.1
+
+El siguiente ejemplo ilustra el uso de la @b{compilación condicional} usando  el macro de OpenMP @b{_OPENMP}. 
+@verbatim
+#include <stdio.h>
+#include <omp.h>
+int main()
+{
+
+#ifdef _OPENMP
+    printf("Checkpoint 1: Thread # %d\n\n", omp_get_thread_num());
+#else
+    printf("Checkpoint 2: Thread # %d\n\n", omp_get_thread_num());
+#endif
+return 0;
+} 
+@end verbatim
+@b{Resultados}
+
+Checkpoint 1: Thread # 0
+
+@b{Análisis y conclusión}
+
+El resultado es simple: sólo se condiciona el trabajo de paralelización por la directivas #ifdef, #else y #endif
+
+
